@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 :root{
     --primary-color: #06373d;
     --secondary-color: #ffd900;
     --background-color: #f7f7f7;
-    --background-color-light:#f3f1f179 ;
+    --background-color-light:#eeeded ;
     --background-color-dark:var(--text-color-dark);
     --text-color: #333;
     --text-color-light: #666;
@@ -21,6 +23,41 @@
     color: var(--text-color);
 }
 
+.search-2 .submenu-open{
+    color: var(--text-color-extra-light);
+    font-size: 40px;
+
+}
+.submenu, .open-submenu{
+    background-color: var(--background-color-light);
+    padding: 30px 20px;
+    position: absolute;
+    z-index: 1000;
+    top:0;
+    width: 100%;
+    display: none;
+
+}
+.submenu ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+.submenu ul li{
+  padding: 8px;
+  border-radius: 5px;
+}
+.submenu ul li:hover{
+    background-color: var(--secondary-color);
+    cursor: pointer;
+    font-weight: 500;
+}
+.submenu-close{
+    position:absolute;
+    right: 4%;
+    top: 2%;
+    color: var(--secondary-color);
+}
 .delivery-contacts{
     justify-content: center;   
     gap: 3rem;
@@ -50,16 +87,22 @@
 }
 
 .header-container{
-    position: relative;
+    width: 100%;
     display: flex;
     background-color: var(--background-color-dark);
     padding: 20px;
+    margin: auto;
 }
 .header{
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin:auto;
+}
+.logo{
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
 }
 .logo img{
     display: flex;
@@ -68,12 +111,21 @@
     height: auto;
     border: none;
 }
+.logo span{
+    color: var(--text-color-extra-light);
+    font-size: 30px;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
 .search {
     display: flex;
     gap: .5rem;
 }
 
-.search input {
+.search input,
+.search-2 input {
+    display: flex;
     width: 600px;
     height: 40px;
     padding: 10px;
@@ -104,8 +156,107 @@
     display: flex;
     align-items: center;
     gap: 2rem;
+    color: var(--text-color-extra-light);
+    padding:0 30px;
+
 }
 .profile{
     display: flex;
     gap: .3rem;
+    color: var(--text-color-extra-light);
+}
+.profile .material-icons,
+.profile span,
+.cart .material-icons,
+.cart span{
+    color: var(--text-color-extra-light)
+}
+.cart{
+    display: flex;
+}
+.cart span{
+    color: var(--secondary-color);
+}
+.search-2{
+    display: none;
+}
+
+
+/* responsivesness */
+@media screen and (max-width:1150px){
+    .profile span{
+        display:none;
+    }
+    
+    .search input {
+        width: 300px;
+    }
+
+}
+@media screen and (max-width:710px) {
+    .search input {
+            width: 200px;
+        }
+}
+@media screen and (max-width:620px){
+    
+    .logo span {
+        display: none;
+    }
+    .cart-profile{
+        padding: 8px;
+        gap: .2rem;
+    }
+    .delivery-contacts{
+        flex-direction: column;
+        gap: .5rem;    
+    
+    }
+    
+}
+@media screen and (max-width:440px) {
+    .logo img{
+        width: 100px;
+    }
+    
+    .delivery-contacts{
+        display: none;
+    }
+    
+    .header-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    .search{
+        display: none;
+    }
+    .search-2{
+        justify-content: space-around;
+        display: flex;
+        gap: .5rem;
+    }
+    .search-2 input{
+        width: 250px;
+    }
+    .cart-profile{
+        display: none;
+    }
+        body {
+            position: fixed;
+            min-width: 320px;
+            overflow-x: auto;
+            margin: 0;
+            padding: 0;
+        }
+    
+        body::-webkit-scrollbar {
+            height: 8px;
+        }
+    
+        body::-webkit-scrollbar-thumb {
+            background-color: darkgray;
+            border-radius: 4px;
+        }
 }
