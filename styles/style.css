@@ -87,6 +87,7 @@
 }
 
 .header-container{
+    position: fixed;
     width: 100%;
     display: flex;
     background-color: var(--background-color-dark);
@@ -243,6 +244,8 @@
     .cart-profile{
         display: none;
     }
+}
+@media screen and (max-width:380px) {
         body {
             position: fixed;
             min-width: 320px;
