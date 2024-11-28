@@ -187,30 +187,37 @@
     display: none;
 }
 .hero-section{
+    height: 350px;
     position: relative;
-    max-width: 1000px;
+    max-width: 1250px;
     margin: auto;
     overflow: hidden;
     display: flex;
 }
 .categories{
+    position: relative;
     background-color: var(--background-color-light);
     padding:20px;
     box-shadow: 0 0 10px rgba(0,0,0,0);
-    width:fit-content;
+    width: 300px;;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    
 }
 .categories p{
     background-color: var(--secondary-color);
     font-weight: 500;
     padding: 8px;
+    display: flex;
 }
 .categories ul{
     padding: 14px;
     display: flex;
     flex-direction: column;
-    gap:.5rem
+    gap:.5rem;
+    display:flex;
+    text-wrap: nowrap;
 }
 .categories ul hr{
     border-color: var(--text-color-extra-light);
@@ -218,8 +225,9 @@
 
 .carousel {
     position: relative;
-    max-width: 750px;
+    max-width: 850px;
     margin: auto;
+    margin-top: 0;
     overflow: hidden;
     display: flex;
 }
@@ -252,7 +260,48 @@
 .carousel-button.right {
     right: 10px;
 }
+.carousel-dots {
+    
+    text-align: center;
+    margin-top: 10px;
+    position: absolute;
+    z-index: 1000000;
+    right:45%;
+    transform: translateX(50%);
+    bottom: 5%;
+    
 
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: var(--secondary-color);
+}
+.ad-poster{
+        display: flex;
+        transition: transform 0.5s ease;
+        overflow: hidden;
+        width: 200px;
+        
+}
+.ad-poster img{
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+   
+
+    
+}
 /* responsivesness */
 @media screen and (max-width:1150px){
     .profile span{
@@ -264,13 +313,60 @@
     }
 
 }
+@media screen and (max-width:1200px){
+       .ad-poster {
+            display: none;
+        }
+}
+@media screen and (max-width:810px){
+    .categories ul li {
+        font-size: 10px;
+        overflow: hidden;
+    }
+}
+@media screen and (max-width:980px){
+    .hero-section{
+        display: flex;
+        flex-direction: column-reverse;   
+         
+    }
+    .categories p {
+        background-color: transparent;
+    }
+    .carousel{
+        max-width: 980px;
+        display: block;
+        height: 100%;
+    }
+    .carousel-dots {
+        display: none;
+    }
+    .categories {
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        max-width: 100%;
+        width: 100%;
+        
+    }
+   
+    .categories ul { 
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        max-width: fit-content;    
+        text-wrap: normal;
+        flex-wrap: wrap;
+    }
+}
 @media screen and (max-width:710px) {
     .search input {
             width: 200px;
         }
 }
 @media screen and (max-width:620px){
-    
+ 
     .logo span {
         display: none;
     }
@@ -283,7 +379,7 @@
         gap: .5rem;    
     
     }
-    
+   
 }
 @media screen and (max-width:440px) {
     .logo img{

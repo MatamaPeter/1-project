@@ -9,7 +9,8 @@
     <title>Epicks Online Shop</title>
 </head>
 <body>
-    
+
+<!-- Header section -->    
     <div id="submenu" class="submenu">
         <i id="sub-menu-close" class="submenu-close material-icons">cancel</i>
         <ul>
@@ -82,10 +83,14 @@
             
         </div>
     </div>
+<!-- Header section -->
+
+
+<!-- Hero-section -->
     <div class="hero-section">
         <div class="categories">
             <p>Categories</p>
-            <ul>
+            <ul><hr>
                 <li><a href="">Electronics</a></li> <hr>
                 <li><a href="">Fashion</a></li><hr>
                 <li><a href="">Home & Kitchen</a></li><hr>
@@ -101,15 +106,21 @@
                 <img src="images/carousel/image1.jpg" alt="Image 1">
                 <img src="images/carousel/image2.jpg" alt="Image 2">
                 <img src="images/carousel/image3.jpg" alt="Image 3">
+                
+                
             </div>
             <button class="carousel-button left" id="prevBtn">&#10094;</button>
             <button class="carousel-button right" id="nextBtn">&#10095;</button>
         </div> 
+
+        <div class="carousel-dots" id="carouselDots"></div>
+
         <div class="ad-poster">
             <img src="images/ads/Schweppes.jpeg" alt="">
             
         </div>
     </div>
+<!-- Hero-section -->
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -132,31 +143,47 @@
             const images = document.querySelectorAll('#carouselImages img');
             const totalImages = images.length;
 
+            // Create dots
+            const dotsContainer = document.getElementById('carouselDots');
+            for (let i = 0; i < totalImages; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                dot.addEventListener('click', () => {
+                    currentIndex = i; // Set current index to the clicked dot index
+                    updateCarousel();
+                });
+                dotsContainer.appendChild(dot);
+            }
+
+            const updateDots = () => {
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            };
+
             const updateCarousel = () => {
                 const carouselImages = document.getElementById('carouselImages');
-                const offset = -currentIndex * 100; 
+                const offset = -currentIndex * 100;
                 carouselImages.style.transform = `translateX(${offset}%)`;
+                updateDots(); 
             };
 
-           
             const nextImage = () => {
-                currentIndex = (currentIndex + 1) % totalImages; 
+                currentIndex = (currentIndex + 1) % totalImages;
                 updateCarousel();
             };
 
-            
             const prevImage = () => {
-                currentIndex = (currentIndex - 1 + totalImages) % totalImages; 
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages;
                 updateCarousel();
             };
 
-           
-            setInterval(nextImage, 5000); 
+            setInterval(nextImage, 5000);
 
             document.getElementById('nextBtn').addEventListener('click', nextImage);
             document.getElementById('prevBtn').addEventListener('click', prevImage);
         });
-
 
 
 
