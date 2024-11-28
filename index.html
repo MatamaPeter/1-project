@@ -268,13 +268,13 @@
             const images = document.querySelectorAll('#carouselImages img');
             const totalImages = images.length;
 
-            // Create dots
+            
             const dotsContainer = document.getElementById('carouselDots');
             for (let i = 0; i < totalImages; i++) {
                 const dot = document.createElement('span');
                 dot.classList.add('dot');
                 dot.addEventListener('click', () => {
-                    currentIndex = i; // Set current index to the clicked dot index
+                    currentIndex = i; 
                     updateCarousel();
                 });
                 dotsContainer.appendChild(dot);

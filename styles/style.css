@@ -351,6 +351,24 @@ body{
     height: 150px;
     object-fit: cover;
 }
+.price{
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;    
+}
+.price span{
+    font-size: 11px;
+    text-decoration: line-through;
+}
+.price-desc{
+    width: 100%;
+}
+.price-desc p{
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .shop-product select{
     background: var(--background-color-light);
     color: var(--text-color-light);
