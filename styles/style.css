@@ -302,6 +302,30 @@
 
     
 }
+.shop-section{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    max-width: 1250px;
+}
+
+.shop-header h2{
+    color: var(--text-color-dark);
+    max-width: 1250px;
+}
+.shop-header p {
+    background-color: var(--secondary-color);
+    width: 250px;
+    padding:3px 8px;
+    font-weight: 600;
+    border-radius: 0 20px 0 0;
+   
+    
+}
+
+
+
+
 /* responsivesness */
 @media screen and (max-width:1150px){
     .profile span{
