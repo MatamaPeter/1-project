@@ -11,7 +11,7 @@
 <body>
     
     <div id="submenu" class="submenu">
-        <i class="submenu-close material-icons">cancel</i>
+        <i id="sub-menu-close" class="submenu-close material-icons">cancel</i>
         <ul>
             <li>Cart (0)</li>
             <li>checkout</li>
@@ -74,7 +74,7 @@
                 </div>         
         </div>
         <div class="search-2">
-            <i class=" submenu-open material-icons">menu</i>
+            <i id="menu-open-btn" class=" submenu-open material-icons">menu</i>
             <input type="search" placeholder="Search...">
             <button class="search-btn">
                 <i class="material-icons">search</i>
@@ -82,5 +82,85 @@
             
         </div>
     </div>
+    <div class="hero-section">
+        <div class="categories">
+            <p>Categories</p>
+            <ul>
+                <li><a href="">Electronics</a></li> <hr>
+                <li><a href="">Fashion</a></li><hr>
+                <li><a href="">Home & Kitchen</a></li><hr>
+                <li><a href="">Beauty & Personal Care</a></li><hr>
+                <li><a href="">Sports</a></li><hr>
+                <li><a href="">Toys & Games</a></li><hr>
+                <li><a href="">Baby Products</a></li><hr>
+
+            </ul>
+        </div>
+        <div class="carousel">
+            <div class="carousel-images" id="carouselImages">
+                <img src="images/carousel/image1.jpg" alt="Image 1">
+                <img src="images/carousel/image2.jpg" alt="Image 2">
+                <img src="images/carousel/image3.jpg" alt="Image 3">
+            </div>
+            <button class="carousel-button left" id="prevBtn">&#10094;</button>
+            <button class="carousel-button right" id="nextBtn">&#10095;</button>
+        </div> 
+        <div class="ad-poster">
+            <img src="images/ads/Schweppes.jpeg" alt="">
+            
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+            const subMenuOpen = document.getElementById('menu-open-btn');
+            const subMenuClass = document.getElementById('submenu');
+
+            subMenuOpen.addEventListener('click', () => {
+                subMenuClass.classList.toggle('open-submenu');
+            });
+
+            const subMenuClose = document.getElementById('sub-menu-close');
+            subMenuClose.addEventListener('click', () => {
+                subMenuClass.classList.remove('open-submenu');
+            })
+        });
+
+       document.addEventListener('DOMContentLoaded', () => {
+            let currentIndex = 0;
+
+            const images = document.querySelectorAll('#carouselImages img');
+            const totalImages = images.length;
+
+            const updateCarousel = () => {
+                const carouselImages = document.getElementById('carouselImages');
+                const offset = -currentIndex * 100; 
+                carouselImages.style.transform = `translateX(${offset}%)`;
+            };
+
+           
+            const nextImage = () => {
+                currentIndex = (currentIndex + 1) % totalImages; 
+                updateCarousel();
+            };
+
+            
+            const prevImage = () => {
+                currentIndex = (currentIndex - 1 + totalImages) % totalImages; 
+                updateCarousel();
+            };
+
+           
+            setInterval(nextImage, 5000); 
+
+            document.getElementById('nextBtn').addEventListener('click', nextImage);
+            document.getElementById('prevBtn').addEventListener('click', prevImage);
+        });
+
+
+
+
+</script>
+
 </body>
 </html>
