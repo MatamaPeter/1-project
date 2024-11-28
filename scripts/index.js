@@ -1,5 +1,6 @@
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
+import { cart } from "../data/cart.js";
 
 document.addEventListener('DOMContentLoaded', () => {
         const subMenuOpen = document.getElementById('menu-open-btn');
@@ -83,13 +84,53 @@ function renderProducts (){
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <button class="shop-button">Add to Cart</button>
+                <button data-product-id="${product.id}" class="shop-button">Add to Cart</button>
             </div>
+            
+
             </div>
         `
-        
-        
     })
 }
 renderProducts();
 document.querySelector('.shop-products').innerHTML = productsHTML;
+
+function saveToStorage() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function addToCart() {
+    const buttons = document.querySelectorAll('.shop-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productId = e.target.dataset.productId;
+            const quantity = e.target.parentNode.querySelector('select').value;
+            
+            // Find the product in the products array
+            const product = products.find((product) => product.id === productId);
+            
+            // Find the product in the cart array
+            const cartItem = cart.find((item) => item.productId === productId);
+
+            if (cartItem) {
+                // Update quantity if item already exists in cart
+                cartItem.quantity += parseInt(quantity);
+            } else {
+                // Add new item to the cart
+                cart.push({
+                    productId,
+                    quantity: parseInt(quantity),
+                });
+            }
+
+            // Save the updated cart to localStorage
+            saveToStorage();
+
+            // Optional: Log the cart after each update (for debugging)
+            console.log(cart);
+        });
+    });
+}
+
+// Call the function to add event listeners
+addToCart();
