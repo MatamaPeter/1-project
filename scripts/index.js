@@ -164,7 +164,8 @@ function addToCart() {
                 postAddedToCart.innerHTML = ``;
             }, 1000);
 
-            
+            const selectElement = e.target.parentNode.querySelector('select');
+            selectElement.value = '1'; // Reset the dropdown to 1
                          
             renderCart();
 
