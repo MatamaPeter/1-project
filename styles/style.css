@@ -383,6 +383,17 @@ body{
     padding: 5px 10px;
     border: none
 }
+.added-message{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-extra-light);
+    font-size: 12px;
+
+}
+.added-message i{
+    color: rgb(2, 189, 17);
+}
 
 
 

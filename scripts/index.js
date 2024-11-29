@@ -86,7 +86,7 @@ function renderProducts (){
                 </select>
                 <button data-product-id="${product.id}" class="shop-button">Add to Cart</button>
             </div>
-            
+            <div class="added-message"></div>
 
             </div>
         `
@@ -95,20 +95,47 @@ function renderProducts (){
 renderProducts();
 document.querySelector('.shop-products').innerHTML = productsHTML;
 
-function saveToStorage() {
+// Ensure cart exists in localStorage, or initialize as an empty array
+function getCart() {
+    const cartFromStorage = localStorage.getItem('cart');
+    return cartFromStorage ? JSON.parse(cartFromStorage) : [];
+}
+
+function saveToStorage(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+function renderCart() {
+    const cart = getCart(); // Fetch the latest cart from localStorage
+    const newCartQuantity = cart.reduce((total, item) => item.quantity + total, 0); // Calculate the total quantity
+    document.querySelector('.cart span').innerHTML = newCartQuantity; // Update the displayed cart quantity
+}
+
+
 function addToCart() {
     const buttons = document.querySelectorAll('.shop-button');
+    
     buttons.forEach(button => {
         button.addEventListener('click', (e) => {
             const productId = e.target.dataset.productId;
             const quantity = e.target.parentNode.querySelector('select').value;
-            
+
+            // Check if productId and quantity are valid
+            if (!productId || !quantity) {
+                console.error('Product ID or quantity is missing!');
+                return;
+            }
+
             // Find the product in the products array
             const product = products.find((product) => product.id === productId);
-            
+            if (!product) {
+                console.error('Product not found!');
+                return;
+            }
+
+            // Get the current cart from localStorage
+            const cart = getCart();
+
             // Find the product in the cart array
             const cartItem = cart.find((item) => item.productId === productId);
 
@@ -124,13 +151,27 @@ function addToCart() {
             }
 
             // Save the updated cart to localStorage
-            saveToStorage();
+            saveToStorage(cart);
 
-            // Optional: Log the cart after each update (for debugging)
-            console.log(cart);
+            // Show a message that the product was added to the cart
+            const productContainer = e.target.closest('.shop-product');
+            const postAddedToCart = productContainer.querySelector('.added-message');
+            postAddedToCart.innerHTML = `
+                <i class="material-icons">check_circle</i>
+                <span>Added to Cart</span>`;
+            
+            setTimeout(() => {
+                postAddedToCart.innerHTML = ``;
+            }, 1000);
+
+            
+                         
+            renderCart();
+
         });
     });
 }
 
 // Call the function to add event listeners
 addToCart();
+window.onload = renderCart;
