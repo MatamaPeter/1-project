@@ -1,10 +1,15 @@
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { cart } from "../data/cart.js";
+import { fetchFiles } from "./fetchFiles.js";
 
-document.addEventListener('DOMContentLoaded', () => {
+fetchFiles('includes/header.html','.header-section').then(()=>{
+
+        
         const subMenuOpen = document.getElementById('menu-open-btn');
         const subMenuClass = document.getElementById('submenu');
+        
+        
 
         subMenuOpen.addEventListener('click', () => {
             subMenuClass.classList.toggle('open-submenu');
@@ -14,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         subMenuClose.addEventListener('click', () => {
             subMenuClass.classList.remove('open-submenu');
         })
-    });
+    
 
-document.addEventListener('DOMContentLoaded', () => {
+
     let currentIndex = 0;
 
     const images = document.querySelectorAll('#carouselImages img');
@@ -62,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('nextBtn').addEventListener('click', nextImage);
     document.getElementById('prevBtn').addEventListener('click', prevImage);
- });
+
     
 let productsHTML = '';
 function renderProducts (){
@@ -137,7 +142,7 @@ function addToCart() {
             const cart = getCart();
 
             // Find the product in the cart array
-            const cartItem = cart.find((item) => item.productId === productId);
+            const cartItem = cart.find((item) => item.id === productId);
 
             if (cartItem) {
                 // Update quantity if item already exists in cart
@@ -145,9 +150,10 @@ function addToCart() {
             } else {
                 // Add new item to the cart
                 cart.push({
-                    productId,
+                    id: productId, // Ensure key name consistency
                     quantity: parseInt(quantity),
                 });
+
             }
 
             // Save the updated cart to localStorage
@@ -176,3 +182,5 @@ function addToCart() {
 // Call the function to add event listeners
 addToCart();
 window.onload = renderCart;
+
+});
