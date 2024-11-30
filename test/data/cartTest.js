@@ -1,5 +1,6 @@
 import { addToCart, renderCart, getCart } from '../../data/cart.js';
 import { products } from '../../data/products.js';
+window.TESTING = true;
 
 describe('addToCart()', () => {
     beforeEach(() => {

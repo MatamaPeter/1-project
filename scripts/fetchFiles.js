@@ -1,4 +1,9 @@
 export function fetchFiles(url, div) {
+    // Check if we're in a testing environment
+    if (window.TESTING === true) {
+        return Promise.resolve();
+    }
+
     return new Promise((resolve, reject) => {
         fetch(url)
             .then(response => response.text())
@@ -17,3 +22,4 @@ export function fetchFiles(url, div) {
             });
     });
 }
+

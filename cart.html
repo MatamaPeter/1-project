@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles/cart-style.css">
+    <link rel="shortcut icon" href="images/favicon/image.png">
+    <title>Epicks Online Shop | Cart </title>
+</head>
+
+<body>
+    <!-- Header section -->
+    <div class="header-section">
+    
+    </div>
+    <!-- Header section -->
+
+    <!-- Cart section -->
+
+    <div class="cart-section">
+        <div class="cart-header">
+            <h2>Cart</h2>
+            <a href="index.html">Back to Shop</a>
+        </div>
+        <div class="cart-body">
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="images/products/product1.jpg" alt="Product Image">
+                </div>
+                <div class="cart-item-name">
+                    Ranee Biryani - 5 Kg
+                </div>
+                <div class="cart-item-price">
+                    <div class="discounted-price">
+                        ₹ 200.00
+                    </div>
+                    <div class="marked-price">
+                        ₹ 250.00
+                    </div>
+                </div>
+                <div class="cart-item-quantity">
+                    <div class="qty-price">
+                        <select name="quantity" id="">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button data-product-id="${product.id}" class="shop-button">Update</button>
+                    </div>
+                </div>
+                <div class="cart-item-remove">
+                    <i class="material-icons">delete</i>
+                </div>
+                
+            </div>
+        </div>
+
+
+    </div>
+<!-- Cart section -->
+
+
+<script type="module" src="data/cart.js"></script>
+</body>
+</html>

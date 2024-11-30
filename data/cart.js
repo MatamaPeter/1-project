@@ -1,4 +1,8 @@
 import { products } from "./products.js";
+import { fetchFiles } from "../scripts/fetchFiles.js";
+
+fetchFiles('includes/header.html', '.header-section');
+
 export function getCart() {
     const cartFromStorage = localStorage.getItem('cart');
     return cartFromStorage ? JSON.parse(cartFromStorage) : [];
