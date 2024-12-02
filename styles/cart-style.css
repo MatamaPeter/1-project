@@ -8,9 +8,8 @@
 }
 .cart-payment-field{
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
     flex-wrap: wrap;
+    gap: .7rem;
 }
 .cart-header{
     display: flex;
