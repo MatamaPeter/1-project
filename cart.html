@@ -24,41 +24,95 @@
             <h2>Cart</h2>
             <a href="index.html">Back to Shop</a>
         </div>
-        <div class="cart-body">
-            <div class="cart-item">
-                <div class="cart-item-image">
-                    <img src="images/products/product1.jpg" alt="Product Image">
-                </div>
-                <div class="cart-item-name">
-                    Ranee Biryani - 5 Kg
-                </div>
-                <div class="cart-item-price">
-                    <div class="discounted-price">
-                        ₹ 200.00
+        <div class="cart-payment-field">
+            <div class="cart-body">
+                <div class="cart-delivery">
+            
+                    <div class="cart-item">
+                        <div class="card-left">
+                            <div class="cart-item-image">
+                                <img src="images/products/product1.jpg" alt="Product Image">
+                            </div>
+                            <div class="cart-item-name-price">
+                                <div class="cart-item-name">
+                                    Ranee Biryani - 5 Kg
+                                </div>
+                                <div class="cart-item-price">
+                                    <div class="discounted-price">
+                                        $ 200.00
+                                    </div>
+                                    <div class="marked-price">
+                                        $ 250.00
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-right">
+                            <div class="cart-item-quantity">
+                                <div class="qty-price">
+                                    <select name="quantity" id="">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                    <button data-product-id="${product.id}" class="shop-button">Update</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-remove">
+                                <button class="delete-cart-item">Delete</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="marked-price">
-                        ₹ 250.00
+
+                    <div class="delivery-section">
+                        <div class="delivery-header">
+                            <h3>Delivery Information</h3>
+                        </div>
+                        <div class="Customer-Address">
+                            <p>Shipping Address</p>
+                            <div class="shipping-info">
+                                <div class="customer-name">
+                                    <input type="text" name="customer-name" placeholder="Customer Name">
+                                </div>
+                                <div class="customer-phone">
+                                    <input type="text" name="customer-phone" placeholder="Customer Phone">
+                                </div>
+                                <div class="customer-email">
+                                    <input type="email" name="customer-email" placeholder="Customer Email">
+                                </div>
+                                <div class="address">
+                                    <input type="text" name="address" placeholder="Address">
+                                </div>
+                                <div class="city">
+                                    <input type="text" name="city" placeholder="City">
+                                </div>
+                            </div>
+                            <div class="additional-nfo">
+                                <textarea name="additional-nfo" placeholder="Additional Information"></textarea>
+                            </div>
+                        </div>                       
+
                     </div>
                 </div>
-                <div class="cart-item-quantity">
-                    <div class="qty-price">
-                        <select name="quantity" id="">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                        <button data-product-id="${product.id}" class="shop-button">Update</button>
+            </div>
+            <div class="payment-summary">
+                <div class="payment-header">
+                    <h2>Payment Summary</h2> 
+                </div>
+                <div class="payment-body">
+                    <div class="payment-body-left">
+                        <div class="sub-total"><p>Subtotal:</p>$200.00</div>
+                        <div class="tax"><p>Tax(10%):</p>$20.00</div>
+                        <div class="shipping"><p>Shipping:</p>$80.00</div>
+                        <hr>
+                        <div class="total"><p>Total:</p>$300.00</div>
+
                     </div>
                 </div>
-                <div class="cart-item-remove">
-                    <i class="material-icons">delete</i>
-                </div>
-                
             </div>
         </div>
-
 
     </div>
 <!-- Cart section -->

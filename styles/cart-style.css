@@ -1,1 +1,122 @@
-@import url('style.css');
+@import 'style.css';
+
+.cart-section{
+    max-width: 950px;
+    margin: auto;
+    margin-top: 30px;
+    width: 100%;
+}
+.cart-payment-field{
+    display: flex;
+    justify-content: space-between
+}
+.cart-header{
+    display: flex;
+    flex-direction: column;
+    margin:-20;
+}
+.cart-header a{
+    font-size: 12px;
+}
+.cart-body{
+    margin-top: 15px;
+    max-width: 700px;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+}
+.card-left{
+    display: flex;
+    align-items: center;
+}
+.cart-item{
+    display: flex;
+    background-color: var( --text-color-extra-light);
+    padding: 20px;
+    border-radius: 15px;
+    align-items: center;
+    justify-content: space-between;
+}
+.cart-item-image img{
+    width: 100px;
+    
+}
+.cart-item-name{
+    font-size: 14px;
+}
+.discounted-price{
+
+}
+.marked-price{
+    color: var(--text-color-extra-dark);
+    font-size: 10px;
+    text-decoration: line-through;
+}
+.card-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+.qty-price{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+.qty-price select{
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--background-color-light);
+
+}
+.qty-price button{
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--text-color-light);
+    cursor: pointer;
+    color: var(--text-color-extra-light);
+}
+.delete-cart-item{
+    width:105px;
+    padding:8px 10px;  
+    border: none;
+    border-radius: 5px;
+    background-color: var(--text-color);
+    cursor: pointer;
+    color: var(--text-color-extra-light);
+}
+.delete-cart-item:hover{
+    background-color: var(--text-color-dark);
+}
+.payment-summary{
+    margin-top: 15px;
+    padding: 1rem;
+    background-color: var(--text-color-extra-light);
+    border-radius: 10px;
+}
+.payment-body hr{
+    margin-top: 10px;
+}
+.payment-body-left{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem
+}
+.sub-total,.tax,.shipping,.total{
+    display: flex;
+    justify-content: space-between;
+}
+.total{
+    font-size: 1.2rem;
+    font-weight: bold;
+
+}
