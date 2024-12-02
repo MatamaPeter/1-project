@@ -70,36 +70,59 @@
                         <div class="delivery-header">
                             <h3>Delivery Information</h3>
                         </div>
-                        <div class="Customer-Address">
-                            <p>Shipping Address</p>
-                            <div class="shipping-info">
-                                <div class="customer-name">
-                                    <input type="text" name="customer-name" placeholder="Customer Name">
-                                </div>
-                                <div class="customer-phone">
-                                    <input type="text" name="customer-phone" placeholder="Customer Phone">
-                                </div>
-                                <div class="customer-email">
-                                    <input type="email" name="customer-email" placeholder="Customer Email">
-                                </div>
-                                <div class="address">
-                                    <input type="text" name="address" placeholder="Address">
-                                </div>
-                                <div class="city">
-                                    <input type="text" name="city" placeholder="City">
-                                </div>
+                        <div class="customer-address">
+                            <div class="shipping-heading">
+                                <p>1</p>
+                                Shipping Address
                             </div>
-                            <div class="additional-nfo">
-                                <textarea name="additional-nfo" placeholder="Additional Information"></textarea>
-                            </div>
-                        </div>                       
+                            <hr>
+                            <form action="">
+                                <div class="shipping-info">
+                                    <div class="customer-name">
+                                        <input type="text" name="first-name" placeholder="Name">
+                                    </div>
+                                    <div class="customer-phone">
+                                        <input type="text" name="customer-phone" placeholder="Phone">
+                                    </div>
+                                    <div class="customer-email">
+                                        <input type="email" name="customer-email" placeholder="Email">
+                                    </div>
+                                    <div class="address">
+                                        <input type="text" name="address" placeholder="Address">
+                                    </div>
+                                    <div class="city">
+                                        <input type="text" name="city" placeholder="City">
+                                    </div>
+                                    <div class="alternative-phone">
+                                        <input type="text" name="alt-phone" placeholder="Alternative Phone">
+                                    </div>
+                                </div>
+                                <div class="additional-info">
+                                    <textarea name="additional-nfo" placeholder="Additional Information"></textarea>
+                                </div>
+                                <div class="delivery-choice">
+                                    <label>
+                                        <input type="radio" name="delivery-method" value="door-delivery" checked> Door delivery
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="delivery-method" value="pickup-station"> Pickup Station
+                                    </label>
+                                </div>
+                                <button class="shipping-dtls-submit">
+                                    Submit
+                                </button>
+                            </form>
+                        
+                        </div>       
+                                 
+                        
 
                     </div>
                 </div>
             </div>
             <div class="payment-summary">
                 <div class="payment-header">
-                    <h2>Payment Summary</h2> 
+                    <h3>Payment Summary</h3> 
                 </div>
                 <div class="payment-body">
                     <div class="payment-body-left">

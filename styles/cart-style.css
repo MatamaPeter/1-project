@@ -8,7 +8,9 @@
 }
 .cart-payment-field{
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 .cart-header{
     display: flex;
@@ -28,9 +30,15 @@
     gap: 0.5rem;
     
 }
+.cart-delivery{
+    display: flex;
+    flex-direction: column;
+    gap:1rem
+}
 .card-left{
     display: flex;
     align-items: center;
+    
 }
 .cart-item{
     display: flex;
@@ -47,8 +55,8 @@
 .cart-item-name{
     font-size: 14px;
 }
-.discounted-price{
-
+.cart-item-price .discounted-price{
+    font-weight: bold;
 }
 .marked-price{
     color: var(--text-color-extra-dark);
@@ -101,6 +109,8 @@
     padding: 1rem;
     background-color: var(--text-color-extra-light);
     border-radius: 10px;
+    height: fit-content;
+    
 }
 .payment-body hr{
     margin-top: 10px;
@@ -119,4 +129,70 @@
     font-size: 1.2rem;
     font-weight: bold;
 
+}
+.customer-address{
+    margin-top: 10px;
+    background-color: var(--text-color-extra-light);
+    padding: 20px;
+    border-radius: 10px;
+}
+.customer-address hr{
+    margin:5px 0 5px 0;
+}
+.shipping-heading{
+    display: flex;
+    gap:.5rem;
+    align-items: center;
+    font-weight:500;
+
+}
+.shipping-heading p{
+    border-radius: 50px;
+    background-color: var(--text-color-light);
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    color: var(--text-color-extra-light);
+    font-weight:bold;
+    font-size: 12px;
+}
+.shipping-info{
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: .8rem;
+    margin-bottom: 10px;
+}
+.shipping-info input, 
+.additional-info textarea{
+    padding: 10px;
+    width: 100%;
+    background-color: var(--background-color-light);
+    border: none;
+    border-radius: 3px;
+}
+.shipping-info input:focus,
+.additional-info textarea:focus {
+    outline-color: var(--secondary-color);
+    outline-offset: 2px;
+    transition: outline 0.2s ease-in-out;
+}
+.delivery-choice{
+    display: flex;
+    font-size: 13px;
+    gap: 1rem;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.shipping-dtls-submit{
+    padding:8px 20px;
+    border: none;
+    background-color: var(--secondary-color);
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.shipping-dtls-submit:hover{
+    background-color: var(--background-color-dark);
+    color:var(--text-color-extra-light);
 }
