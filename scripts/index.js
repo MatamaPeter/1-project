@@ -75,7 +75,7 @@ function renderProducts (){
     products.forEach((product) => {
         productsHTML += `
             <div class="shop-product">
-                <img src="${product.image}" alt="Product 5">
+                <img src="images/products/${product.image}" alt="Product 5">
                 <div class="price-desc">
                     <div class="price">
                         <h3>$${formatCurrency(product.discountPriceCents)}</h3><span>$${formatCurrency(product.markedPriceCents)}</span>

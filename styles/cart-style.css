@@ -40,6 +40,11 @@
     align-items: center;
     
 }
+.cart-items{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
 .cart-item{
     display: flex;
     background-color: var( --text-color-extra-light);
