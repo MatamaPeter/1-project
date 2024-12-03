@@ -12,7 +12,7 @@ export function getCart() {
 function saveToStorage(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
-export function renderCart() {
+export  function renderCart() {
             const cart = getCart(); // Fetch the latest cart from localStorage
             const newCartQuantity = cart.reduce((total, item) => item.quantity + total, 0); // Calculate the total quantity
             document.querySelector('.cart span').innerHTML = newCartQuantity; // Update the displayed cart quantity
