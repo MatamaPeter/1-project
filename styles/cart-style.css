@@ -138,14 +138,17 @@
 .customer-address hr{
     margin:5px 0 5px 0;
 }
-.shipping-heading{
+.shipping-heading,
+.Delivery-option-heading
+{
     display: flex;
     gap:.5rem;
     align-items: center;
     font-weight:500;
 
 }
-.shipping-heading p{
+.shipping-heading p, 
+.Delivery-option-heading p{
     border-radius: 50px;
     background-color: var(--text-color-light);
     height: 20px;
@@ -155,6 +158,7 @@
     font-weight:bold;
     font-size: 12px;
 }
+
 .shipping-info{
     margin-top: 20px;
     display: grid;
@@ -195,4 +199,22 @@
 .shipping-dtls-submit:hover{
     background-color: var(--background-color-dark);
     color:var(--text-color-extra-light);
+}
+.delivery-option{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+}
+.door-delivery p{
+    font-size: 12px;
+}
+.door-delivery-body{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.door-delivery-body span{
+    font-weight: bold;
 }
