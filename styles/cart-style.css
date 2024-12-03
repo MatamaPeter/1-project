@@ -1,10 +1,11 @@
 @import 'style.css';
 
 .cart-section{
-    max-width: 950px;
+    max-width: 1200px;
     margin: auto;
     margin-top: 30px;
     width: 100%;
+    justify-content: center;
 }
 .cart-payment-field{
     display: flex;
@@ -109,7 +110,7 @@
     background-color: var(--text-color-extra-light);
     border-radius: 10px;
     height: fit-content;
-    
+    width:450px;
 }
 .payment-body hr{
     margin-top: 10px;
@@ -128,6 +129,16 @@
     font-size: 1.2rem;
     font-weight: bold;
 
+}
+.payment-method{
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+}
+.checkout-btn{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 .customer-address{
     margin-top: 10px;
@@ -168,7 +179,9 @@
 }
 .shipping-info input, 
 .shipping-info select,
-.additional-info textarea{
+.additional-info textarea,
+.pick-up-station-body select,
+.payment-no{
     padding: 10px;
     width: 100%;
     background-color: var(--background-color-light);
@@ -176,7 +189,10 @@
     border-radius: 3px;
 }
 .shipping-info input:focus,
-.additional-info textarea:focus {
+.shipping-info select:focus,
+.additional-info textarea:focus,
+.pick-up-station-body select:focus,
+.payment-no:focus{
     outline-color: var(--secondary-color);
     outline-offset: 2px;
     transition: outline 0.2s ease-in-out;
@@ -188,7 +204,8 @@
     margin-bottom: 15px;
     align-items: center;
 }
-.shipping-dtls-submit{
+.shipping-dtls-submit,
+.checkout-btn .btn-primary{
     padding:8px 20px;
     border: none;
     background-color: var(--secondary-color);
@@ -196,7 +213,8 @@
     border-radius: 8px;
     cursor: pointer;
 }
-.shipping-dtls-submit:hover{
+.shipping-dtls-submit:hover,
+.checkout-btn .btn-primary:hover{
     background-color: var(--background-color-dark);
     color:var(--text-color-extra-light);
 }
@@ -207,14 +225,25 @@
     gap: .5rem;
 
 }
-.door-delivery p{
+.door-delivery p,
+.pick-up-time-price p
+{
     font-size: 12px;
 }
-.door-delivery-body{
+.door-delivery-body,
+.pick-up-time-price{
     display: flex;
     align-items: baseline;
     justify-content: space-between;
 }
-.door-delivery-body span{
+.door-delivery-body span,
+.pick-up-time-price span{
     font-weight: bold;
+}
+.pick-up-location{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    width: 100%;
+    justify-content: stretch;
+    gap: 1rem;
 }
