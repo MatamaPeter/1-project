@@ -1,4 +1,4 @@
-import { cart, getCart, renderCart } from './cart.js'; // Make sure renderCart is imported correctly
+import { cart, renderCart } from './cart.js'; // Make sure renderCart is imported correctly
 import { products } from './products.js';
 import { formatCurrency } from "../utils/money.js";
 
