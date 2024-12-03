@@ -384,14 +384,18 @@ body{
     border: none
 }
 .added-message{
+    justify-content: center;
+}
+.added-message,
+.cart-updated-message{
     display: flex;
     align-items: center;
-    justify-content: center;
     color: var(--text-color-extra-light);
     font-size: 12px;
 
 }
-.added-message i{
+.added-message i,
+.cart-updated-message i{
     color: rgb(2, 189, 17);
 }
 
