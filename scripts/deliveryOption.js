@@ -1,7 +1,7 @@
 import { cities } from "../data/cities.js";
 
 // Function to populate cities
-function populateCities() {
+export function populateCities() {
   const citySelect = document.querySelector(".city select");
   citySelect.innerHTML = "<option value='' selected>Select your city</option>"; // Reset city options
   cities.forEach((city, index) => {
@@ -13,8 +13,10 @@ function populateCities() {
 }
 
 // Function to populate regions based on selected city
-function populateRegions(cityIndex = null) {
+export function populateRegions(cityIndex = null) {
   const regionSelect = document.querySelector(".region select");
+  const deliveryPrice = document.getElementById("deliveryPrice");
+
   regionSelect.innerHTML = "<option value='' selected>Select your region</option>"; // Reset region options
   const regions = cityIndex !== null ? cities[cityIndex].regions : cities.flatMap((city) => city.regions);
   
@@ -25,10 +27,15 @@ function populateRegions(cityIndex = null) {
     option.dataset.cityIndex = cityIndex; // Store city index for later
     regionSelect.appendChild(option);
   });
+
+  // Reset delivery price if the element exists
+  if (deliveryPrice) {
+    deliveryPrice.textContent = "-";
+  }
 }
 
 // Function to attach event listeners for city and region selection
-function attachCityRegionEvents() {
+export function attachCityRegionEvents() {
   const citySelect = document.querySelector(".city select");
   const regionSelect = document.querySelector(".region select");
   const deliveryPrice = document.getElementById("deliveryPrice");
