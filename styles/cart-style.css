@@ -229,13 +229,17 @@
     background-color: var(--background-color-dark);
     color:var(--text-color-extra-light);
 }
-.delivery-option{
+.delivery-options{
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: .5rem;
 
 }
+.pick-up-station-body{
+    margin-top: 10px;
+}
+
 .door-delivery p,
 .pick-up-time-price p
 {
@@ -250,6 +254,13 @@
 .door-delivery-body span,
 .pick-up-time-price span{
     font-weight: bold;
+}
+.customer-choice{
+    display: block;
+    gap:2rem;
+}
+.pick-up-time-price{
+    margin-top: 10px;
 }
 .pick-up-location{
     display:grid;

@@ -1,98 +1,152 @@
-export function renderDeliveryOptions() {
-    const postDeliveryHTML = document.querySelector('.delivery-options');
+import { cities } from "../data/cities.js";
 
-    // Load previously selected option from localStorage
-    const savedOption = localStorage.getItem('selectedDeliveryOption');
-
-    // Render the delivery options
-    postDeliveryHTML.innerHTML = `   
-        <div class="Delivery-option-heading">
-            <p>2</p>
-            Delivery Option
-        </div>
-        <hr>
-        <div class="delivery-choice">
-            <label>
-                <input type="radio" name="delivery-method" value="door-delivery" ${
-                    savedOption === 'door-delivery' ? 'checked' : ''
-                }> Door delivery (from $20.00)
-            </label>
-            <label>
-                <input type="radio" name="delivery-method" value="pickup-station" ${
-                    savedOption === 'pickup-station' ? 'checked' : ''
-                }> Pickup Station (from $5.00)
-            </label>
-        </div>
-        <div class="customer-choice">
-            ${savedOption ? getDeliveryDetails(savedOption) : ''}
-        </div>
-    `;
-
-    // Attach event listeners to radio buttons
-    const deliveryChoices = document.querySelectorAll('input[name="delivery-method"]');
-    deliveryChoices.forEach((choice) => {
-        choice.addEventListener('change', (event) => {
-            const selectedOption = event.target.value;
-            localStorage.setItem('selectedDeliveryOption', selectedOption); // Save to localStorage
-
-            // Display details below
-            const customerChoiceDiv = document.querySelector('.customer-choice');
-            customerChoiceDiv.innerHTML = getDeliveryDetails(selectedOption);
-        });
-    });
+// Function to populate cities
+function populateCities() {
+  const citySelect = document.querySelector(".city select");
+  citySelect.innerHTML = "<option value='' selected>Select your city</option>"; // Reset city options
+  cities.forEach((city, index) => {
+    const option = document.createElement("option");
+    option.value = index; // Use index to map to cities array
+    option.textContent = city.name;
+    citySelect.appendChild(option);
+  });
 }
 
-// Helper function to get delivery details
-function getDeliveryDetails(option) {
-    if (option === 'door-delivery') {
-        return `
-        <div class="door-delivery">
-                <h5>Door delivery</h5>
-                <div class="door-delivery-body">
-                    <p>Delivery time: 03 December - 06 December 2024 </p>
-                    <span>$80.00</span>
-                </div>
-        </div>
-        `;
-    } else if (option === 'pickup-station') {
-        return `
-            <div class="pickup-stn">
-            <h5>Pickup Station</h5>
-            <div class="pick-up-station-body">
-                <div class="pick-up-location">
-                    <div class="city">
-                        <select name="city" id="">
-                            <option value="" selected disabled>Select your city</option>
-                            <option value="1">City 1</option>
-                            <option value="2">City 2</option>
-                            <option value="3">City 3</option>
-                            <option value="4">City 4</option>
-                            <option value="5">City 5</option>
-                            <option value="6">City 6</option>
-                        </select>
-                    </div>
-                    <div class="region">
-                        <select name="region" id="">
-                            <option value="" selected disabled>Select your region</option>
-                            <option value="1">Region 1</option>
-                            <option value="2">Region 2</option>
-                            <option value="3">Region 3</option>
-                            <option value="4">Region 4</option>
-                            <option value="5">Region 5</option>
-                            <option value="6">Region 6</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="pick-up-time-price">
-                    <p>Delivery time: 03 December - 06 December 2024 </p>
-                    <span>$80.00</span>
-                </div>
-            </div>
-        `;
+// Function to populate regions based on selected city
+function populateRegions(cityIndex = null) {
+  const regionSelect = document.querySelector(".region select");
+  regionSelect.innerHTML = "<option value='' selected>Select your region</option>"; // Reset region options
+  const regions = cityIndex !== null ? cities[cityIndex].regions : cities.flatMap((city) => city.regions);
+  
+  regions.forEach((region, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = region.name;
+    option.dataset.cityIndex = cityIndex; // Store city index for later
+    regionSelect.appendChild(option);
+  });
+}
+
+// Function to attach event listeners for city and region selection
+function attachCityRegionEvents() {
+  const citySelect = document.querySelector(".city select");
+  const regionSelect = document.querySelector(".region select");
+  const deliveryPrice = document.getElementById("deliveryPrice");
+
+  // Populate cities and regions
+  populateCities();
+  populateRegions();
+
+  // Update regions when a city is selected
+  citySelect.addEventListener("change", (event) => {
+    const cityIndex = event.target.value;
+    populateRegions(cityIndex === "" ? null : parseInt(cityIndex));
+    deliveryPrice.textContent = "-"; // Reset price
+  });
+
+  // Update delivery price when a region is selected
+  regionSelect.addEventListener("change", () => {
+    const regionIndex = regionSelect.selectedIndex - 1;
+    const cityIndex = regionSelect.options[regionSelect.selectedIndex]?.dataset?.cityIndex;
+
+    if (regionIndex >= 0 && cityIndex !== undefined) {
+      const selectedRegion = cities[cityIndex].regions[regionIndex];
+      const pickupPrice = selectedRegion.pricing["pickup-station"];
+      deliveryPrice.textContent = `$${pickupPrice}`;
+    } else {
+      deliveryPrice.textContent = "-";
     }
-    return '';
+  });
 }
 
-// Attach the function to window.onload
-window.onload = renderDeliveryOptions;
+// Render delivery options
+export function renderDeliveryOptions() {
+  const postDeliveryHTML = document.querySelector(".delivery-options");
 
+  // Load previously selected delivery option
+  const savedOption = localStorage.getItem("selectedDeliveryOption");
+
+  // Render the delivery options
+  postDeliveryHTML.innerHTML = `
+    <div class="Delivery-option-heading">
+      <p>2</p>
+      Delivery Option
+    </div>
+    <hr>
+    <div class="delivery-choice">
+      <label>
+        <input type="radio" name="delivery-method" value="door-delivery" ${
+          savedOption === "door-delivery" ? "checked" : ""
+        }> Door delivery (from $20.00)
+      </label>
+      <label>
+        <input type="radio" name="delivery-method" value="pickup-station" ${
+          savedOption === "pickup-station" ? "checked" : ""
+        }> Pickup Station (from $5.00)
+      </label>
+    </div>
+    <div class="customer-choice">
+      ${savedOption ? getDeliveryDetails(savedOption) : ""}
+    </div>
+  `;
+
+  // Attach event listeners to radio buttons
+  const deliveryChoices = document.querySelectorAll("input[name='delivery-method']");
+  deliveryChoices.forEach((choice) => {
+    choice.addEventListener("change", (event) => {
+      const selectedOption = event.target.value;
+      localStorage.setItem("selectedDeliveryOption", selectedOption); // Save selection
+      const customerChoiceDiv = document.querySelector(".customer-choice");
+      customerChoiceDiv.innerHTML = getDeliveryDetails(selectedOption);
+
+      // Reattach city/region events if pickup-station is selected
+      if (selectedOption === "pickup-station") {
+        attachCityRegionEvents();
+      }
+    });
+  });
+
+  // If pickup-station is preselected, attach events
+  if (savedOption === "pickup-station") {
+    attachCityRegionEvents();
+  }
+}
+
+// Helper function to generate details
+function getDeliveryDetails(option) {
+  if (option === "door-delivery") {
+    return `
+      <div class="door-delivery">
+        <h5>Door delivery</h5>
+        <div class="door-delivery-body">
+          <p>Delivery time: 03 December - 06 December 2024</p>
+          <span id="deliveryPrice">$20.00</span>
+        </div>
+      </div>
+    `;
+  } else if (option === "pickup-station") {
+    return `
+      <div class="pickup-stn">
+        <h5>Pickup Station</h5>
+        <div class="pick-up-station-body">
+          <div class="pick-up-location">
+            <div class="city">
+              <select class="city" name="city"></select>
+            </div>
+            <div class="region">
+              <select class="region" name="region"></select>
+            </div>
+          </div>
+          <div class="pick-up-time-price">
+            <p>Delivery time: 03 December - 06 December 2024</p>
+            <span id="deliveryPrice">-</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  return "";
+}
+
+// Initialize
+window.onload = renderDeliveryOptions;
