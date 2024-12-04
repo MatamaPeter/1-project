@@ -1,3 +1,4 @@
+import {renderDeliveryOptions} from "./deliveryOption.js"
 export function shippingDtls() {
     const shippingInfo = document.querySelector('.shipping-form');
 
@@ -27,6 +28,7 @@ export function shippingDtls() {
                 <button class="reset-form">Edit Details</button>
             `;
             attachResetListener();
+            renderDeliveryOptions();
         } else {
             shippingInfo.innerHTML = `
             <div class="field-error"></div>
