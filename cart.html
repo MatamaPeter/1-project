@@ -29,7 +29,6 @@
                 <div class="cart-delivery">
             
                     <div class="cart-items">
-                        No items in Cart
                     </div>
 
                     <div class="delivery-section">
@@ -42,7 +41,7 @@
                                 Shipping Address
                             </div>
                             <hr>
-                            <form action="">
+                            <form action="" class="shipping-form">
                                 <div class="shipping-info">
                                     <div class="customer-name">
                                         <input type="text" name="first-name" placeholder="Name">
@@ -82,28 +81,28 @@
                                 <div class="additional-info">
                                     <textarea name="additional-nfo" placeholder="Additional Information"></textarea>
                                 </div>
-                                <div class="delivery-choice">
-                                    <label>
-                                        <input type="radio" name="delivery-method" value="door-delivery" checked> Door delivery (from $20.00)
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="delivery-method" value="pickup-station"> Pickup Station (from $5.00)
-                                    </label>
-                                </div>
+                                
 
-                                <div class="door-delivery-option">
-                                    
-                                </div>
                                 <button class="shipping-dtls-submit">
                                     Submit
                                 </button>
                             </form>
+
                             <div class="delivery-option">
+                                
                                 <div class="Delivery-option-heading">
                                     <p>2</p>
                                     Delivery Option
                                 </div>
                                 <hr>
+                                <div class="delivery-choice">
+                                    <label>
+                                        <input type="radio" name="delivery-method" value="door-delivery" > Door delivery (from $20.00)
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="delivery-method" value="pickup-station"> Pickup Station (from $5.00)
+                                    </label>
+                                </div>
                                 <div class="door-delivery">
                                         <h5>Door delivery</h5>
                                         <div class="door-delivery-body">
@@ -190,5 +189,7 @@
 
 
 <script type="module" src="data/orderSummary.js"></script>
+<script type="module" src="scripts/shippingAddress.js"></script>
 </body>
+
 </html>

@@ -49,7 +49,12 @@ function generateCart() {
             </div>
         `;
     });
-    document.querySelector('.cart-items').innerHTML = cartHTML;
+    if (cartHTML.length !== 0) {
+        document.querySelector('.cart-items').innerHTML = cartHTML;
+    } else {
+        document.querySelector('.cart-items').innerHTML = 'Your cart is empty';
+
+    }
 }
 
 // Call renderCart when the page loads to update the cart quantity display

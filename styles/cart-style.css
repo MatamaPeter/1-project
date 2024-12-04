@@ -193,6 +193,7 @@
     border: none;
     border-radius: 3px;
 }
+
 .shipping-info input:focus,
 .shipping-info select:focus,
 .additional-info textarea:focus,
@@ -210,7 +211,8 @@
     align-items: center;
 }
 .shipping-dtls-submit,
-.checkout-btn .btn-primary{
+.checkout-btn .btn-primary,
+.reset-form{
     padding:8px 20px;
     border: none;
     background-color: var(--secondary-color);
@@ -218,8 +220,12 @@
     border-radius: 8px;
     cursor: pointer;
 }
+.shipping-dtls-submit{
+    margin-top: 10px;
+}
 .shipping-dtls-submit:hover,
-.checkout-btn .btn-primary:hover{
+.checkout-btn .btn-primary:hover,
+.reset-form:hover{
     background-color: var(--background-color-dark);
     color:var(--text-color-extra-light);
 }
@@ -251,4 +257,35 @@
     width: 100%;
     justify-content: stretch;
     gap: 1rem;
+}
+.field-error{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap:.3rem;
+}
+.field-error i{
+    color: white;
+    font-size: 12px;
+    background-color: red;
+    border-radius: 50%;
+}
+.customer-dtls{
+    display: flex;
+    flex-direction: column;   
+}
+.contact-dtls{
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 12px;
+    align-items: baseline;
+}
+.contact-dtls hr{
+    margin: 5px;
+}
+.reset-form{
+    padding:3px 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+    font-weight: 400;
 }
