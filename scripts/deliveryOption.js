@@ -1,6 +1,5 @@
-import { cities } from "../data/cities.js";
+import { cities, deliveryDays } from "../data/cities.js";
 import { doorDeliveryPrice } from "./shippingAddress.js";
-
 
 // Function to populate cities
 export function populateCities() {
@@ -18,10 +17,11 @@ export function populateCities() {
 export function populateRegions(cityIndex = null) {
   const regionSelect = document.querySelector(".region select");
   const deliveryPrice = document.getElementById("deliveryPrice");
+  const deliveryDaysElement = document.getElementById("deliveryDays");
 
   regionSelect.innerHTML = "<option value='' selected>Select your region</option>"; // Reset region options
   const regions = cityIndex !== null ? cities[cityIndex].regions : cities.flatMap((city) => city.regions);
-  
+
   regions.forEach((region, index) => {
     const option = document.createElement("option");
     option.value = index;
@@ -30,10 +30,9 @@ export function populateRegions(cityIndex = null) {
     regionSelect.appendChild(option);
   });
 
-  // Reset delivery price if the element exists
-  if (deliveryPrice) {
-    deliveryPrice.textContent = "-";
-  }
+  // Reset delivery price and days if the elements exist
+  if (deliveryPrice) deliveryPrice.textContent = "-";
+  if (deliveryDaysElement) deliveryDaysElement.textContent = "-";
 }
 
 // Function to attach event listeners for city and region selection
@@ -41,6 +40,7 @@ export function attachCityRegionEvents() {
   const citySelect = document.querySelector(".city select");
   const regionSelect = document.querySelector(".region select");
   const deliveryPrice = document.getElementById("deliveryPrice");
+  const deliveryDaysElement = document.getElementById("deliveryDays");
 
   // Populate cities and regions
   populateCities();
@@ -51,9 +51,10 @@ export function attachCityRegionEvents() {
     const cityIndex = event.target.value;
     populateRegions(cityIndex === "" ? null : parseInt(cityIndex));
     deliveryPrice.textContent = "-"; // Reset price
+    deliveryDaysElement.textContent = "-"; // Reset days
   });
 
-  // Update delivery price when a region is selected
+  // Update delivery price and days when a region is selected
   regionSelect.addEventListener("change", () => {
     const regionIndex = regionSelect.selectedIndex - 1;
     const cityIndex = regionSelect.options[regionSelect.selectedIndex]?.dataset?.cityIndex;
@@ -61,9 +62,16 @@ export function attachCityRegionEvents() {
     if (regionIndex >= 0 && cityIndex !== undefined) {
       const selectedRegion = cities[cityIndex].regions[regionIndex];
       const pickupPrice = selectedRegion.pricing["pickup-station"];
+      const cityName = cities[cityIndex].name;
+      const regionName = selectedRegion.name;
+      const deliveryDay = deliveryDays[cityName][regionName];
+
+      // Update delivery price and days
       deliveryPrice.textContent = `$${pickupPrice}`;
+      deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
     } else {
       deliveryPrice.textContent = "-";
+      deliveryDaysElement.textContent = "-";
     }
   });
 }
@@ -147,7 +155,7 @@ function getDeliveryDetails(option) {
             </div>
           </div>
           <div class="pick-up-time-price">
-            <p>Delivery time: 03 December - 06 December 2024</p>
+            <p>Delivery time: 03 December - 06 December 2024 <span id="deliveryDays"></span></p>
             <span id="deliveryPrice">-</span>
           </div>
         </div>
@@ -156,4 +164,3 @@ function getDeliveryDetails(option) {
   }
   return "";
 }
-

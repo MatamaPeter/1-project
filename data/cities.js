@@ -40,3 +40,32 @@ export const cities = [
     ],
   },
 ];
+
+// Delivery days data
+export const deliveryDays = {
+  Nairobi: {
+    "Westlands": 1,
+    "Kilimani": 1,
+    "CBD": 1,
+  },
+  Mombasa: {
+    "Nyali": 2,
+    "Likoni": 3,
+    "Mombasa Island": 2,
+  },
+  Kisumu: {
+    "Milimani": 2,
+    "Nyalenda": 3,
+    "Kondele": 2,
+  },
+  Nakuru: {
+    "Lanet": 2,
+    "Nakuru CBD": 1,
+    "Free Area": 2,
+  },
+  Eldoret: {
+    "Elgon View": 3,
+    "Kapsoya": 2,
+    "CBD": 1,
+  },
+};
