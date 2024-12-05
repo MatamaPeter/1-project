@@ -301,3 +301,6 @@
     font-weight: 400;
     margin-bottom: 20px;
 }
+.customer-dtls strong {
+    margin-right: 4px;
+}

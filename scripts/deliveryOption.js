@@ -1,4 +1,6 @@
 import { cities } from "../data/cities.js";
+import { doorDeliveryPrice } from "./shippingAddress.js";
+
 
 // Function to populate cities
 export function populateCities() {
@@ -127,7 +129,7 @@ function getDeliveryDetails(option) {
         <h5>Door delivery</h5>
         <div class="door-delivery-body">
           <p>Delivery time: 03 December - 06 December 2024</p>
-          <span id="deliveryPrice">$20.00</span>
+          <span id="deliveryPrice">$${doorDeliveryPrice}</span>
         </div>
       </div>
     `;
@@ -155,5 +157,3 @@ function getDeliveryDetails(option) {
   return "";
 }
 
-// Initialize
-window.onload = renderDeliveryOptions;
