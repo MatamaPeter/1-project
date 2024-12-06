@@ -1,49 +1,56 @@
-import { renderDeliveryOptions } from "./deliveryOption.js"
-import { cities } from "../data/cities.js"
+import { renderDeliveryOptions, updateDoorDeliveryDetails } from "./deliveryOption.js";
+import { cities, deliveryDays } from "../data/cities.js";
+import { cart } from "../data/cart.js";
+import { renderCart } from "../data/cart.js";
 
-export let doorDeliveryPrice = ''
-function initializeShippingForm() {
-    const shippingInfo = document.querySelector('.shipping-form');
+
+if (cart.length !== 0) {
+
+    function initializeShippingForm() {
+        const shippingInfo = document.querySelector('.shipping-form');
     
-    if (!shippingInfo) {
-        console.error('Shipping form element not found');
-        return;
-    }
-
-    function renderShippingDetails() {
-        const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
-
-       if (shippingDetails && Object.keys(shippingDetails).length > 0) {
-   
-
-            shippingInfo.innerHTML = `
-                <div class="customer-dtls">
-                    ${shippingDetails.customerName || "Not Provided"}<br>
-                    <div class="contact-dtls">
-                        <strong>Email:</strong>  ${shippingDetails.customerEmail || "Not Provided"}<br>
-                        <hr>
-                        <strong>Phone:</strong> ${shippingDetails.customerPhone || "Not Provided"}<br>
-                        <hr>
-                        <strong>Address:</strong> ${shippingDetails.customerAddress || "Not Provided"}<br>
-                        <hr>
-                        <strong>City:</strong> ${shippingDetails.customerCity || "Not Provided"}<br>
-                        <hr>
-                        <strong>Region:</strong> ${shippingDetails.customerRegion || "Not Provided"}<br>
-                        <hr>
-                        <strong>Additional Info:</strong> ${shippingDetails.customerAddInfo || "None"}<br>
-                    </div>
-                </div>
-                <button class="reset-form">Edit Details</button>
-            `;
-            attachResetListener();
-            renderDeliveryOptions();
-        } else {
-            renderForm();
+        if (!shippingInfo) {
+            console.error('Shipping form element not found');
+            return;
         }
-    }
 
-    function renderForm() {
-        shippingInfo.innerHTML = `
+        function renderShippingDetails() {
+            const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
+
+            if (shippingDetails && Object.keys(shippingDetails).length > 0) {
+                shippingInfo.innerHTML = `
+            <div class="customer-dtls">
+                ${shippingDetails.customerName || "Not Provided"}<br>
+                <div class="contact-dtls">
+                    <strong>Email:</strong> ${shippingDetails.customerEmail || "Not Provided"}<br>
+                    <hr>
+                    <strong>Phone:</strong> ${shippingDetails.customerPhone || "Not Provided"}<br>
+                    <hr>
+                    <strong>Address:</strong> ${shippingDetails.customerAddress || "Not Provided"}<br>
+                    <hr>
+                    <strong>City:</strong> ${shippingDetails.customerCity || "Not Provided"}<br>
+                    <hr>
+                    <strong>Region:</strong> ${shippingDetails.customerRegion || "Not Provided"}<br>
+                    <hr>
+                    <strong>Additional Info:</strong> ${shippingDetails.customerAddInfo || "None"}<br>
+                </div>
+            </div>
+            <button class="reset-form">Edit Details</button>
+        `
+                attachResetListener();
+                renderDeliveryOptions();
+        
+       
+                updateDoorDeliveryDetails();
+            } else {
+                renderForm();
+            }
+        }
+
+
+
+        function renderForm() {
+            shippingInfo.innerHTML = `
             <div class="field-error"></div>
             <div class="shipping-info">
                 <div class="customer-name">
@@ -76,119 +83,132 @@ function initializeShippingForm() {
             <button class="shipping-dtls-submit">Submit</button>
         `;
 
-        const citySelect = shippingInfo.querySelector("#city");
-        const regionSelect = shippingInfo.querySelector("#region");
-        const pricingDiv = shippingInfo.querySelector("#pricing");
+            const citySelect = shippingInfo.querySelector("#city");
+            const regionSelect = shippingInfo.querySelector("#region");
+            const pricingDiv = shippingInfo.querySelector("#pricing");
 
-        populateCityDropdown(citySelect, regionSelect, pricingDiv);
-        attachSubmitListener();
-    }
+            populateCityDropdown(citySelect, regionSelect, pricingDiv);
+            attachSubmitListener();
+        }
     
-    function populateCityDropdown(citySelect, regionSelect, pricingDiv) {
-        if (!citySelect) {
-            console.error('City select not found');
-            return;
+        function populateCityDropdown(citySelect, regionSelect, pricingDiv) {
+            if (!citySelect) {
+                console.error('City select not found');
+                return;
+            }
+
+            cities.forEach((city) => {
+                const option = document.createElement("option");
+                option.value = city.name;
+                option.textContent = city.name;
+                citySelect.appendChild(option);
+            });
+
+            citySelect.addEventListener("change", function () {
+                const selectedCity = citySelect.value;
+
+                regionSelect.innerHTML = '<option value="" selected disabled>Select your region</option>';
+                regionSelect.disabled = false;
+                pricingDiv.innerHTML = "";
+
+                if (selectedCity) {
+                    const selectedCityData = cities.find((city) => city.name === selectedCity);
+
+                    selectedCityData.regions.forEach((region) => {
+                        const option = document.createElement("option");
+                        option.value = region.name;
+                        option.textContent = region.name;
+                        regionSelect.appendChild(option);
+                    });
+                }
+            });
+
+            regionSelect.addEventListener("change", function () {
+                const selectedCity = citySelect.value;
+                const selectedRegion = regionSelect.value;
+
+                pricingDiv.innerHTML = "";
+
+                if (selectedCity && selectedRegion) {
+                    const selectedCityData = cities.find((city) => city.name === selectedCity);
+                    const selectedRegionData = selectedCityData.regions.find(
+                        (region) => region.name === selectedRegion
+                    );
+
+                    const doorDeliveryDaysAndPrice = {
+                        Days: deliveryDays[selectedCity][selectedRegion],
+                        Price: selectedRegionData.pricing["door-delivery"],
+                    };
+
+                    // Update localStorage and UI
+                    localStorage.setItem('doorDeliveryDaysAndPrice', JSON.stringify(doorDeliveryDaysAndPrice));
+        
+                    // Dynamically update door delivery details in the UI
+                    if (document.querySelector(".door-delivery")) {
+                        updateDoorDeliveryDetails();
+                    }
+                }
+            });
+
         }
 
-        cities.forEach((city) => {
-            const option = document.createElement("option");
-            option.value = city.name;
-            option.textContent = city.name;
-            citySelect.appendChild(option);
-        });
+        function attachSubmitListener() {
+            const shippingDtlsBtn = shippingInfo.querySelector('.shipping-dtls-submit');
+            if (shippingDtlsBtn) {
+                shippingDtlsBtn.addEventListener('click', (event) => {
+                    event.preventDefault();
 
-        citySelect.addEventListener("change", function () {
-            const selectedCity = citySelect.value;
+                    const custName = shippingInfo.querySelector('.customer-name input').value;
+                    const custEmail = shippingInfo.querySelector('.customer-email input').value;
+                    const custPhone = shippingInfo.querySelector('.customer-phone input').value;
+                    const custAddress = shippingInfo.querySelector('.address input').value;
+                    const custCity = shippingInfo.querySelector('.city select').value;
+                    const custRegion = shippingInfo.querySelector('.region select').value;
+                    const custAddInfo = shippingInfo.querySelector('.additional-info textarea').value;
 
-            regionSelect.innerHTML = '<option value="" selected disabled>Select your region</option>';
-            regionSelect.disabled = false;
-            pricingDiv.innerHTML = "";
-
-            if (selectedCity) {
-                const selectedCityData = cities.find((city) => city.name === selectedCity);
-
-                selectedCityData.regions.forEach((region) => {
-                    const option = document.createElement("option");
-                    option.value = region.name;
-                    option.textContent = region.name;
-                    regionSelect.appendChild(option);
-                });
-            }
-        });
-
-        regionSelect.addEventListener("change", function () {
-            const selectedCity = citySelect.value;
-            const selectedRegion = regionSelect.value;
-
-            pricingDiv.innerHTML = "";
-
-            if (selectedCity && selectedRegion) {
-                const selectedCityData = cities.find((city) => city.name === selectedCity);
-                const selectedRegionData = selectedCityData.regions.find(
-                    (region) => region.name === selectedRegion
-                );
-
-                doorDeliveryPrice = selectedRegionData.pricing["door-delivery"];
-
-                
-            }
-        });
-    }
-
-    function attachSubmitListener() {
-        const shippingDtlsBtn = shippingInfo.querySelector('.shipping-dtls-submit');
-        if (shippingDtlsBtn) {
-            shippingDtlsBtn.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                const custName = shippingInfo.querySelector('.customer-name input').value;
-                const custEmail = shippingInfo.querySelector('.customer-email input').value;
-                const custPhone = shippingInfo.querySelector('.customer-phone input').value;
-                const custAddress = shippingInfo.querySelector('.address input').value;
-                const custCity = shippingInfo.querySelector('.city select').value;
-                const custRegion = shippingInfo.querySelector('.region select').value;
-                const custAddInfo = shippingInfo.querySelector('.additional-info textarea').value;
-
-                if (!custName || !custEmail || !custPhone || !custAddress || !custCity || !custRegion) {
-                    shippingInfo.querySelector('.field-error').innerHTML = `
+                    if (!custName || !custEmail || !custPhone || !custAddress || !custCity || !custRegion) {
+                        shippingInfo.querySelector('.field-error').innerHTML = `
                      <i class="material-icons">close</i>
                      Please fill in all required fields.
                     `;
-                    return;
-                }
+                        return;
+                    }
 
-                const shippingDetails = {
-                    customerName: custName,
-                    customerEmail: custEmail,
-                    customerPhone: custPhone,
-                    customerAddress: custAddress,
-                    customerCity: custCity,
-                    customerRegion: custRegion,
-                    customerAddInfo: custAddInfo,
-                };
+                    const shippingDetails = {
+                        customerName: custName,
+                        customerEmail: custEmail,
+                        customerPhone: custPhone,
+                        customerAddress: custAddress,
+                        customerCity: custCity,
+                        customerRegion: custRegion,
+                        customerAddInfo: custAddInfo,
+                    };
 
-                localStorage.setItem('shippingDetails', JSON.stringify(shippingDetails));
-                renderShippingDetails();
-
-            });
+                    localStorage.setItem('shippingDetails', JSON.stringify(shippingDetails));
+                    renderShippingDetails();
+                });
+            }
         }
+
+        function attachResetListener() {
+            const resetBtn = shippingInfo.querySelector('.reset-form');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', () => {
+                    localStorage.removeItem('shippingDetails');
+                    renderShippingDetails();
+                });
+            }
+        }
+
+        renderShippingDetails();
     }
 
-    function attachResetListener() {
-        const resetBtn = shippingInfo.querySelector('.reset-form');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => {
-                localStorage.removeItem('shippingDetails');
-                renderShippingDetails();
-            });
-        }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeShippingForm);
+    } else {
+        initializeShippingForm();
     }
-
-    renderShippingDetails();
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeShippingForm);
 } else {
-    initializeShippingForm();
+    document.querySelector('.delivery-section').remove()
+    document.querySelector('.payment-summary').remove()
 }
