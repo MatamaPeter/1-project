@@ -1,4 +1,5 @@
 import { cities, deliveryDays } from "../data/cities.js";
+import { formatCurrency } from "../utils/money.js";
 
 const storedData = JSON.parse(localStorage.getItem('doorDeliveryDaysAndPrice'));
 
@@ -70,7 +71,7 @@ export function attachCityRegionEvents() {
       const deliveryDay = deliveryDays[cityName][regionName];
 
       // Update delivery price and days
-      deliveryPrice.textContent = `$${pickupPrice}`;
+      deliveryPrice.textContent = `$${formatCurrency(pickupPrice)}`;
       deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
     } else {
       deliveryPrice.textContent = "-";
@@ -177,7 +178,7 @@ function getDeliveryDetails(option) {
         <h5>Door delivery</h5>
         <div class="door-delivery-body">
           <p>Delivery time: 03 December - 06 December 2024 (<b>${storedData?.Days || "0"} day(s)</b>)</p>
-          <span id="deliveryPrice">$${storedData?.Price || "0.00"}</span>
+          <span id="deliveryPrice">$${formatCurrency(storedData?.Price) || "0.00"}</span>
         </div>
       </div>
     `;
