@@ -1,7 +1,23 @@
+import { cart } from "../data/cart.js";
 import { cities, deliveryDays } from "../data/cities.js";
 import { formatCurrency } from "../utils/money.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 const storedData = JSON.parse(localStorage.getItem('doorDeliveryDaysAndPrice'));
+
+let todayDate='';
+let futureDate='';
+let formattedTodayDate='';
+let formattedFutureDate='';
+
+if(storedData.length !==0){
+
+    todayDate = dayjs();
+    futureDate = todayDate.add(storedData.Days, 'day');
+    formattedTodayDate = todayDate.format('DD MMMM');
+    formattedFutureDate = futureDate.format('DD MMMM YYYY');
+
+}
 
 // Function to populate cities
 export function populateCities() {
@@ -43,6 +59,7 @@ export function attachCityRegionEvents() {
   const regionSelect = document.querySelector(".region select");
   const deliveryPrice = document.getElementById("deliveryPrice");
   const deliveryDaysElement = document.getElementById("deliveryDays");
+  const deliveryRange = document.getElementById("deliveryRange")
 
   // Populate cities and regions
   populateCities();
@@ -55,6 +72,7 @@ export function attachCityRegionEvents() {
     populateRegions(cityIndex === "" ? null : parseInt(cityIndex));
     deliveryPrice.textContent = "-"; // Reset price
     deliveryDaysElement.textContent = "-"; // Reset days
+    deliveryRange.textContent ="-"// Reset delivery range
   });
 
   // Update delivery price and days when a region is selected
@@ -70,9 +88,15 @@ export function attachCityRegionEvents() {
       const regionName = selectedRegion.name;
       const deliveryDay = deliveryDays[cityName][regionName];
 
-      // Update delivery price and days
+
+      const pickupTodayDate = dayjs().format('DD MMMM');
+      const pickupFutureDate = dayjs().add(deliveryDay, 'day').format('DD MMMM YYYY')      
+
+      // Update delivery range, price and days
+      deliveryRange.textContent = `Delivered between ${pickupTodayDate} - ${pickupFutureDate}`;
       deliveryPrice.textContent = `$${formatCurrency(pickupPrice)}`;
       deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
+
     } else {
       deliveryPrice.textContent = "-";
       deliveryDaysElement.textContent = "-";
@@ -111,12 +135,12 @@ export function renderDeliveryOptions() {
       <label>
         <input type="radio" name="delivery-method" value="door-delivery" ${
           savedOption === "door-delivery" ? "checked" : ""
-        }> Door delivery (from $20.00)
+        }> Door delivery 
       </label>
       <label>
         <input type="radio" name="delivery-method" value="pickup-station" ${
           savedOption === "pickup-station" ? "checked" : ""
-        }> Pickup Station (from $5.00)
+        }> Pickup Station
       </label>
     </div>
     <div class="customer-choice">
@@ -177,7 +201,7 @@ function getDeliveryDetails(option) {
       <div class="door-delivery">
         <h5>Door delivery</h5>
         <div class="door-delivery-body">
-          <p>Delivery time: 03 December - 06 December 2024 (<b>${storedData?.Days || "0"} day(s)</b>)</p>
+          <p>Delivery between: ${formattedTodayDate} - ${formattedFutureDate} (<b>${storedData?.Days || "0"} day(s)</b>)</p>
           <span id="deliveryPrice">$${formatCurrency(storedData?.Price) || "0.00"}</span>
         </div>
       </div>
@@ -196,7 +220,7 @@ function getDeliveryDetails(option) {
             </div>
           </div>
           <div class="pick-up-time-price">
-            <p>Delivery time: 03 December - 06 December 2024 <span id="deliveryDays"></span></p>
+            <div class="time-frame"><p id="deliveryRange"></P> <span id="deliveryDays"></span></p></div>
             <span id="deliveryPrice">-</span>
           </div>
         </div>

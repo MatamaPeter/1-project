@@ -1,6 +1,7 @@
 import { fetchFiles } from "../scripts/fetchFiles.js";
 import { products } from "./products.js";
 
+
 fetchFiles('includes/header.html', '.header-section');
 
 export function getCart() {

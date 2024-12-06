@@ -4,7 +4,7 @@ import { cart } from "../data/cart.js";
 import { renderCart } from "../data/cart.js";
 
 
-if (cart.length !== 0) {
+if (cart.length !==0) {
 
     function initializeShippingForm() {
         const shippingInfo = document.querySelector('.shipping-form');
@@ -208,6 +208,8 @@ if (cart.length !== 0) {
     } else {
         initializeShippingForm();
     }
+    window.onload = renderCart;
+
 } else {
     document.querySelector('.delivery-section').remove()
     document.querySelector('.payment-summary').remove()
