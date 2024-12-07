@@ -57,7 +57,7 @@ export function updateTotal() {
                            <p> 1. Go to Mpesa.</p>
                            <p> 2. Select paybill.</p>
                            <p> 3. Enter paybill <b>123456</b></p>
-                           <p> 4. Enter A/c no. as your names with no space e.g. <b>JohnDoe.</b></p>
+                           <p> 4. Enter A/c no. as your names with no space e.g. <b>petermatama.</b></p>
                            <p> 5. Enter amount. <b>$${formatCurrency(total)}</b></p>
                         </h5>
                     </div>
