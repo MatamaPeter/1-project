@@ -44,13 +44,25 @@ export function updateTotal() {
                 <div class="payment-method">
                     <h3>Payment Method:</h3>
                     <label>
-                        <input type="radio" name="payment-method" checked> <span>Mpesa</span>
+                        <input id="payment-method-mpesa" type="radio" name="payment-method" checked> <span>Mpesa</span>
                     </label>
+                    <div id="mpesa-phone-field" class="mpesa-phone-field">
+                        <label>
+                            <input type="text" placeholder="Enter your phone number" class="payment-no">
+                        </label>
+                        <div class="stk-na">
+                            STK not pushing? <span id="use-paybill" style="cursor: pointer; color: blue; text-decoration: underline;">use paybill</span>
+                        </div>
+                        <h5 class="payment-instructions" style="display: none;">
+                           <p> 1. Go to Mpesa.</p>
+                           <p> 2. Select paybill.</p>
+                           <p> 3. Enter paybill <b>123456</b></p>
+                           <p> 4. Enter A/c no. as your names with no space e.g. <b>JohnDoe.</b></p>
+                           <p> 5. Enter amount. <b>$${formatCurrency(total)}</b></p>
+                        </h5>
+                    </div>
                     <label>
-                        <input type="text" placeholder="Enter your phone number" class="payment-no">
-                    </label>
-                    <label>
-                        <input type="radio" name="payment-method"> <span>Cash on Delivery</span>
+                        <input id="payment-method-COD" type="radio" name="payment-method"> <span>Cash on Delivery</span>
                     </label>
                     <div class="checkout-btn">
                         <button class="btn btn-primary">Checkout</button>
@@ -59,6 +71,32 @@ export function updateTotal() {
             </div>
         </div>
     `;
+
+    // Add event listeners for payment method selection
+    const mpesaRadio = document.getElementById('payment-method-mpesa');
+    const codRadio = document.getElementById('payment-method-COD');
+    const mpesaPhoneField = document.getElementById('mpesa-phone-field');
+    const usePaybill = document.getElementById('use-paybill');
+    const paymentInstructions = document.querySelector('.payment-instructions');
+
+    // Initially show phone field (since Mpesa is checked by default)
+    mpesaPhoneField.style.display = 'block';
+
+    // Add event listeners to toggle phone field visibility
+    mpesaRadio.addEventListener('change', () => {
+        mpesaPhoneField.style.display = 'block';
+        paymentInstructions.style.display = 'none'; // Hide payment instructions when switching back to Mpesa
+    });
+
+    codRadio.addEventListener('change', () => {
+        mpesaPhoneField.style.display = 'none';
+        paymentInstructions.style.display = 'none'; // Hide payment instructions when switching to COD
+    });
+
+    // Show payment instructions when "use paybill" is clicked
+    usePaybill.addEventListener('click', () => {
+        paymentInstructions.style.display = 'block'; // Show payment instructions
+    });
     }
 
     // Return the calculated total for potential use elsewhere

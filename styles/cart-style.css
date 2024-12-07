@@ -304,3 +304,17 @@
 .customer-dtls strong {
     margin-right: 4px;
 }
+.stk-na{
+    margin-top: 5px;
+    font-size: 12px;
+}
+.stk-na span{
+    font-weight: 700;
+    cursor: pointer;
+}
+.payment-instructions{
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 300;
+}
