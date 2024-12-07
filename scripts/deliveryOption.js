@@ -1,22 +1,20 @@
-import { cart } from "../data/cart.js";
 import { cities, deliveryDays } from "../data/cities.js";
 import { formatCurrency } from "../utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
-const storedData = JSON.parse(localStorage.getItem('doorDeliveryDaysAndPrice'));
+const storedData = JSON.parse(localStorage.getItem('doorDeliveryDaysAndPrice')) || '';
 
-let todayDate='';
-let futureDate='';
-let formattedTodayDate='';
-let formattedFutureDate='';
+let todayDate = '';
+let futureDate = '';
+let formattedTodayDate = '';
+let formattedFutureDate = '';
+let shippingCost = 0; // Store the shipping cost dynamically
 
-if(storedData.length !==0){
-
-    todayDate = dayjs();
-    futureDate = todayDate.add(storedData.Days, 'day');
-    formattedTodayDate = todayDate.format('DD MMMM');
-    formattedFutureDate = futureDate.format('DD MMMM YYYY');
-
+if (storedData.length !== 0) {
+  todayDate = dayjs();
+  futureDate = todayDate.add(storedData.Days, 'day');
+  formattedTodayDate = todayDate.format('DD MMMM');
+  formattedFutureDate = futureDate.format('DD MMMM YYYY');
 }
 
 // Function to populate cities
@@ -59,7 +57,7 @@ export function attachCityRegionEvents() {
   const regionSelect = document.querySelector(".region select");
   const deliveryPrice = document.getElementById("deliveryPrice");
   const deliveryDaysElement = document.getElementById("deliveryDays");
-  const deliveryRange = document.getElementById("deliveryRange")
+  const deliveryRange = document.getElementById("deliveryRange");
 
   // Populate cities and regions
   populateCities();
@@ -72,7 +70,7 @@ export function attachCityRegionEvents() {
     populateRegions(cityIndex === "" ? null : parseInt(cityIndex));
     deliveryPrice.textContent = "-"; // Reset price
     deliveryDaysElement.textContent = "-"; // Reset days
-    deliveryRange.textContent ="-"// Reset delivery range
+    deliveryRange.textContent = "-"; // Reset delivery range
   });
 
   // Update delivery price and days when a region is selected
@@ -88,15 +86,17 @@ export function attachCityRegionEvents() {
       const regionName = selectedRegion.name;
       const deliveryDay = deliveryDays[cityName][regionName];
 
-
       const pickupTodayDate = dayjs().format('DD MMMM');
-      const pickupFutureDate = dayjs().add(deliveryDay, 'day').format('DD MMMM YYYY')      
+      const pickupFutureDate = dayjs().add(deliveryDay, 'day').format('DD MMMM YYYY');
 
-      // Update delivery range, price and days
+      // Update shippingCost dynamically
+      shippingCost = pickupPrice;
+      document.querySelector('.shipping-cost').innerHTML = shippingCost;
+
+      // Update delivery range, price, and days
       deliveryRange.textContent = `Delivered between ${pickupTodayDate} - ${pickupFutureDate}`;
       deliveryPrice.textContent = `$${formatCurrency(pickupPrice)}`;
       deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
-
     } else {
       deliveryPrice.textContent = "-";
       deliveryDaysElement.textContent = "-";
@@ -104,7 +104,7 @@ export function attachCityRegionEvents() {
   });
 }
 
-// Function to update door delivery details dynamically
+// Function to update door delivery details dynamically and log the price change
 export function updateDoorDeliveryDetails() {
   const deliveryDaysElement = document.querySelector(".door-delivery-body p b");
   const deliveryPrice = document.getElementById("deliveryPrice");
@@ -112,12 +112,47 @@ export function updateDoorDeliveryDetails() {
   const updatedData = JSON.parse(localStorage.getItem('doorDeliveryDaysAndPrice'));
 
   if (updatedData) {
+    const doorDeliveryPrice = updatedData.Price;
+
+    // Update shippingCost dynamically
+    shippingCost = doorDeliveryPrice;
+    document.querySelector('.shipping-cost').innerHTML = shippingCost;
+
     if (deliveryDaysElement) deliveryDaysElement.textContent = `${updatedData.Days} day(s)`;
-    if (deliveryPrice) deliveryPrice.textContent = `$${updatedData.Price}`;
+    if (deliveryPrice) deliveryPrice.textContent = `$${formatCurrency(doorDeliveryPrice)}`;
+    
   }
 }
 
-// Render delivery options
+// Update price and days after restoring city and region selections
+function updatePriceAndDays(regionSelect) {
+  const regionIndex = regionSelect.selectedIndex - 1;
+  const cityIndex = regionSelect.options[regionSelect.selectedIndex]?.dataset?.cityIndex;
+  const deliveryPrice = document.getElementById("deliveryPrice");
+  const deliveryDaysElement = document.getElementById("deliveryDays");
+
+  if (regionIndex >= 0 && cityIndex !== undefined) {
+    const selectedRegion = cities[cityIndex].regions[regionIndex];
+    const pickupPrice = selectedRegion.pricing["pickup-station"];
+    const cityName = cities[cityIndex].name;
+    const regionName = selectedRegion.name;
+    const deliveryDay = deliveryDays[cityName][regionName];
+
+    
+    // Save the shipping cost to localStorage
+    shippingCost = pickupPrice;
+    document.querySelector('.shipping-cost').innerHTML = shippingCost;
+
+
+    // Update UI elements
+    deliveryPrice.textContent = `$${formatCurrency(pickupPrice)}`;
+    deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
+
+    
+  }
+}
+
+// Function to render the delivery options
 export function renderDeliveryOptions() {
   const postDeliveryHTML = document.querySelector(".delivery-options");
 
@@ -230,21 +265,3 @@ function getDeliveryDetails(option) {
   return "";
 }
 
-// Update price and days after restoring city and region selections
-function updatePriceAndDays(regionSelect) {
-  const regionIndex = regionSelect.selectedIndex - 1;
-  const cityIndex = regionSelect.options[regionSelect.selectedIndex]?.dataset?.cityIndex;
-  const deliveryPrice = document.getElementById("deliveryPrice");
-  const deliveryDaysElement = document.getElementById("deliveryDays");
-
-  if (regionIndex >= 0 && cityIndex !== undefined) {
-    const selectedRegion = cities[cityIndex].regions[regionIndex];
-    const pickupPrice = selectedRegion.pricing["pickup-station"];
-    const cityName = cities[cityIndex].name;
-    const regionName = selectedRegion.name;
-    const deliveryDay = deliveryDays[cityName][regionName];
-
-    deliveryPrice.textContent = `$${pickupPrice}`;
-    deliveryDaysElement.textContent = `(${deliveryDay} day(s))`;
-  }
-}
