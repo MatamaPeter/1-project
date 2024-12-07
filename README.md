@@ -1,5 +1,6 @@
 # Epicks Ecommerce Website
 
+
 ## Developer
 Peter Matama Muiru
 
@@ -44,3 +45,35 @@ Contributions are welcome! If you have suggestions for improvements or new featu
 - Thanks to [dayjs](https://day.js.org/) for date manipulation.
 - All copyrights to Peter Matama Muiru.
 - The files should not be used for commercial purposes without the developer's approval.
+
+## File Structure
+/home/matama/Documents/my codes/1-project
+├── data/
+│   ├── cart.js
+│   ├── cities.js
+│   ├── orderSummary.js
+│   └── products.js
+├── images/
+│   ├── ads/
+│   ├── carousel/
+│   └── products/
+├── includes/
+│   └── header.html
+├── scripts/
+│   ├── checkout.js
+│   ├── deliveryOption.js
+│   ├── fetchFiles.js
+│   ├── main.js
+│   └── shippingAddress.js
+├── styles/
+│   ├── cart.css
+│   └── style.css
+├── tests/
+│   ├── data/
+│   ├── lib/
+│   ├── spec/
+│   └── utils/
+├── html/
+│   ├── cart.html
+│   └── index.html
+└── README.md
