@@ -1,6 +1,7 @@
 import { cart, renderCart } from './cart.js'; // Make sure renderCart is imported correctly
 import { products } from './products.js';
 import { formatCurrency } from "../utils/money.js";
+import { updateTotal } from '../scripts/checkout.js';
 
 // Generate the cart HTML
 function generateCart() {
@@ -74,10 +75,10 @@ function updateCartItem() {
             const cartItem = cart.find(item => item.id === productId);
             
             if (cartItem) {
-                cartItem.quantity = parseInt(quantity, 10); 
-                localStorage.setItem('cart', JSON.stringify(cart));
+                cartItem.quantity = parseInt(quantity, 10); // Update cart item quantity
+                localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
                 generateCart(); // Regenerate the cart with updated quantities
-                
+
                 // Delay to allow DOM to update
                 setTimeout(() => {
                     const updatedCartItemElement = document.querySelector(`.cart-item [data-product-id="${productId}"]`).closest('.cart-item');
@@ -93,24 +94,20 @@ function updateCartItem() {
                     }, 1000);
                 }, 0);
 
-                // After updating the cart, render the updated cart quantity
+                // Recalculate the total and update the display
+                updateTotal();  // Call the updateTotal function to refresh the total
                 renderCart();  // This updates the cart quantity (in the cart icon, for example)
             }
         }
     });
 }
+
 updateCartItem();
 
 function deleteFromCart() {
     document.querySelector('.cart-items').addEventListener('click', (e) => {
         if (e.target.classList.contains('delete-cart-item')) {
             const productId = e.target.dataset.productId;
-            
-            // Remove the cart item from the DOM immediately
-            const cartItemToRemove = e.target.closest('.cart-item');
-            if (cartItemToRemove) {
-                cartItemToRemove.remove();
-            }
             
             // Get the current cart from local storage
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -121,25 +118,38 @@ function deleteFromCart() {
             // Update the local storage with the new cart
             localStorage.setItem('cart', JSON.stringify(newCart));
 
-            // Update the global cart variable
-            cart.length = 0;
-            cart.push(...newCart);
+            // Ensure the global cart is updated
+            cart.splice(0, cart.length, ...newCart);
 
-            // Update the cart quantity display
+            // Immediately remove the cart item from the DOM
+            const cartItemToRemove = e.target.closest('.cart-item');
+            if (cartItemToRemove) {
+                cartItemToRemove.remove();
+            }
+
+            // Re-render the cart and update the total after deletion
+            updateTotal();
             renderCart();
 
             // If cart is empty, show an empty cart message
             if (newCart.length === 0) {
+                // Safely remove sections
+                document.querySelector('.delivery-section')?.remove();
+                document.querySelector('.payment-summary')?.remove();
+
                 const cartItemsContainer = document.querySelector('.cart-items');
-                cartItemsContainer.innerHTML = `
-                    <div class="empty-cart-message">
-                        <p>Your cart is empty</p>
-                    </div>
-                `;
+                if (cartItemsContainer) {
+                    cartItemsContainer.innerHTML = `
+                        <div class="empty-cart-message">
+                            <p>Your cart is empty</p>
+                        </div>
+                    `;
+                }
             }
         }
     });
 }
+
 deleteFromCart();
 
 window.onload = renderCart;

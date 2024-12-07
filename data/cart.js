@@ -14,9 +14,11 @@ function saveToStorage(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 export  function renderCart() {
-            const cart = getCart(); // Fetch the latest cart from localStorage
-            const newCartQuantity = cart.reduce((total, item) => item.quantity + total, 0); // Calculate the total quantity
-            document.querySelector('.cart span').innerHTML = newCartQuantity; // Update the displayed cart quantity
+    const cart = getCart(); // Fetch the latest cart from localStorage
+   
+        const newCartQuantity = cart.reduce((total, item) => item.quantity + total, 0); // Calculate the total quantity
+        document.querySelector('.cart span').innerHTML = newCartQuantity; // Update the displayed cart quantity
+       
 }
 export const cart = JSON.parse(localStorage.getItem('cart')) || [];
 export function addToCart() {
