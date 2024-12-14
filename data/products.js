@@ -108,7 +108,7 @@ class Product {
 }
 
 // Grouping products by category
-const groupedByCategory = products.reduce((acc, product) => {
+export const groupedByCategory = products.reduce((acc, product) => {
     const ProductInstance = new Product(product.id, product.image, product.discountPriceCents, product.markedPriceCents, product.name, product.category);
     if (!acc[product.category]) {
         acc[product.category] = [];
@@ -117,50 +117,3 @@ const groupedByCategory = products.reduce((acc, product) => {
     return acc;
 }, {});
 
-// Rendering categories dynamically
-function renderCategory(groupedByCategory, category) {
-           
-    let productsHTML='';
-    groupedByCategory[category].forEach((product) => {
-            productsHTML += `
-            <div class="shop-product">
-                <img src="images/products/${product.image}" alt="${product.name}">
-                <div class="price-desc">
-                    <div class="price">
-                        <h3>$${product.discountPriceCents}</h3><span>$${product.markedPriceCents}</span>
-                    </div>
-                    <p>${product.name}</p>
-                </div>
-            <div class="qty-price">
-                <select name="quantity" id="">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-                <button data-product-id="${product.id}" class="shop-button">Add to Cart</button>
-            </div>
-            <div class="added-message"></div>
-
-            </div>
-        `
-   
-
-     })
-                 document.querySelector('.shop-products').innerHTML = productsHTML;
-
-    }
-
-
-
-const categoryDiv = document.querySelectorAll('.categories ul li');
-categoryDiv.forEach((category) => {
-
-    category.addEventListener('click', () => {
-         document.querySelector('.shop-header p').innerHTML = category.textContent;
-         renderCategory(groupedByCategory, category.innerText)
-    });
-    
-    
-})

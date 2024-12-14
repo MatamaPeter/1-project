@@ -2,6 +2,7 @@ import { products } from "../data/products.js";
 import { formatCurrency } from "../utils/money.js";
 import { addToCart, renderCart } from "../data/cart.js";
 import { fetchFiles } from "./fetchFiles.js";
+import { groupedByCategory } from "../data/products.js";
 
 
 fetchFiles('includes/header.html','.header-section').then(()=>{
@@ -72,18 +73,20 @@ fetchFiles('includes/header.html','.header-section').then(()=>{
     
 let productsHTML = '';
 
-    
-function renderProducts (){
-    products.forEach((product) => {
-        productsHTML += `
-            <div class="shop-product">
-                <img src="images/products/${product.image}" alt="${product.name}">
-                <div class="price-desc">
-                    <div class="price">
-                        <h3>$${formatCurrency(product.discountPriceCents)}</h3><span>$${formatCurrency(product.markedPriceCents)}</span>
-                    </div>
-                    <p>${product.name}</p>
+
+
+// Function to generate the product HTML
+function generateProductHTML(product) {
+    return `
+        <div class="shop-product">
+            <img src="images/products/${product.image}" alt="${product.name}">
+            <div class="price-desc">
+                <div class="price">
+                    <h3>$${formatCurrency(product.discountPriceCents)}</h3>
+                    <span>$${formatCurrency(product.markedPriceCents)}</span>
                 </div>
+                <p>${product.name}</p>
+            </div>
             <div class="qty-price">
                 <select name="quantity" id="">
                     <option value="1">1</option>
@@ -95,14 +98,42 @@ function renderProducts (){
                 <button data-product-id="${product.id}" class="shop-button">Add to Cart</button>
             </div>
             <div class="added-message"></div>
-
-            </div>
-        `
-    })
+        </div>
+    `;
 }
+
+// Function to render products (either all or filtered by category)
+function renderProductsOrCategory(productsData) {
+    let productsHTML = '';
+    productsData.forEach((product) => {
+        productsHTML += generateProductHTML(product);
+    });
+    document.querySelector('.shop-products').innerHTML = productsHTML;
+}
+
+// Function to render all products
+function renderProducts() {
+    renderProductsOrCategory(products);
+}
+
+// Function to render products by category
+function renderCategory(groupedByCategory, category) {
+    if (groupedByCategory[category]) {
+        renderProductsOrCategory(groupedByCategory[category]);
+    }
+}
+
+// Handle category selection and rendering
+const categoryDiv = document.querySelectorAll('.categories ul li');
+categoryDiv.forEach((category) => {
+    category.addEventListener('click', () => {
+        document.querySelector('.shop-header p').innerHTML = category.textContent;
+        renderCategory(groupedByCategory, category.innerText); // Filter by category
+    });
+});
+
+// Initial render of all products when page loads
 renderProducts();
-    
-document.querySelector('.shop-products').innerHTML = productsHTML;
 
 addToCart();
 renderCart();
