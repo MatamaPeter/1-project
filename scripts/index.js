@@ -71,11 +71,13 @@ fetchFiles('includes/header.html','.header-section').then(()=>{
 
     
 let productsHTML = '';
+
+    
 function renderProducts (){
     products.forEach((product) => {
         productsHTML += `
             <div class="shop-product">
-                <img src="images/products/${product.image}" alt="Product 5">
+                <img src="images/products/${product.image}" alt="${product.name}">
                 <div class="price-desc">
                     <div class="price">
                         <h3>$${formatCurrency(product.discountPriceCents)}</h3><span>$${formatCurrency(product.markedPriceCents)}</span>
@@ -99,6 +101,7 @@ function renderProducts (){
     })
 }
 renderProducts();
+    
 document.querySelector('.shop-products').innerHTML = productsHTML;
 
 addToCart();
