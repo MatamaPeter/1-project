@@ -175,7 +175,7 @@ body{
     padding:0 30px;
 
 }
-.profile{
+.profile a{
     display: flex;
     gap: .3rem;
     color: var(--text-color-extra-light);
@@ -185,6 +185,11 @@ body{
 .cart .material-icons,
 .cart span{
     color: var(--text-color-extra-light)
+}
+
+.profile .material-icons:hover,
+.profile span:hover{
+    color: var(--secondary-color);
 }
 .cart{
     display: flex;
