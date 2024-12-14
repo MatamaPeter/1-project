@@ -71,10 +71,6 @@ fetchFiles('includes/header.html','.header-section').then(()=>{
     document.getElementById('prevBtn').addEventListener('click', prevImage);
 
     
-let productsHTML = '';
-
-
-
 // Function to generate the product HTML
 function generateProductHTML(product) {
     return `
@@ -120,6 +116,8 @@ function renderProducts() {
 function renderCategory(groupedByCategory, category) {
     if (groupedByCategory[category]) {
         renderProductsOrCategory(groupedByCategory[category]);
+                addToCart();
+
     }
 }
 
