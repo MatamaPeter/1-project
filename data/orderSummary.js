@@ -9,7 +9,7 @@ function generateCart() {
     cart.forEach(cartItem => {
         const product = products.find(product => product.id === cartItem.id);    
         cartHTML += `
-            <div class="cart-item">
+            <div class="cart-item" data-product-id="${cartItem.id}">
                 <div class="card-left">
                     <div class="cart-item-image">
                         <img src="images/products/${product.image}" alt="${product.name}">
@@ -50,16 +50,16 @@ function generateCart() {
             </div>
         `;
     });
-    if (cartHTML.length !== 0) {
-        document.querySelector('.cart-items').innerHTML = cartHTML;
-    } else {
-        document.querySelector('.cart-items').innerHTML = 'Your cart is empty';
 
+    const cartItemsContainer = document.querySelector('.cart-items');
+    if (cartItemsContainer) {
+        if (cart.length !== 0) {
+            cartItemsContainer.innerHTML = cartHTML;
+        } else {
+            cartItemsContainer.innerHTML = '<div class="empty-cart-message"><p>Your cart is empty</p></div>';
+        }
     }
 }
-
-// Call renderCart when the page loads to update the cart quantity display
-// Display the cart number on page load
 
 // Generate the cart display on page load
 generateCart();
@@ -72,31 +72,41 @@ function updateCartItem() {
             const cartItemElement = e.target.closest('.cart-item');
             const selectElement = cartItemElement.querySelector('select');
             const quantity = selectElement ? selectElement.value : 1; 
-            const cartItem = cart.find(item => item.id === productId);
             
-            if (cartItem) {
-                cartItem.quantity = parseInt(quantity, 10); // Update cart item quantity
-                localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
-                generateCart(); // Regenerate the cart with updated quantities
-
-                // Delay to allow DOM to update
+            // Find the index of the cart item
+            const cartItemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (cartItemIndex !== -1) {
+                // Update the specific cart item
+                cart[cartItemIndex].quantity = parseInt(quantity, 10);
+                
+                // Save updated cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Regenerate the cart
+                generateCart();
+                
+                // Delay to show update message
                 setTimeout(() => {
-                    const updatedCartItemElement = document.querySelector(`.cart-item [data-product-id="${productId}"]`).closest('.cart-item');
-                    const postUpdatedCart = updatedCartItemElement.querySelector('.cart-updated-message');
+                    const updatedCartItemElement = document.querySelector(`.cart-item[data-product-id="${productId}"]`);
+                    const postUpdatedCart = updatedCartItemElement?.querySelector('.cart-updated-message');
                     
-                    postUpdatedCart.innerHTML = `
-                        <i class="material-icons">check_circle</i>
-                        <span>Cart updated</span>`;
-                    
-                    postUpdatedCart.style.opacity = 1;
-                    setTimeout(() => {
-                        postUpdatedCart.style.opacity = 0;
-                    }, 1000);
+                    if (postUpdatedCart) {
+                        postUpdatedCart.innerHTML = `
+                            <i class="material-icons">check_circle</i>
+                            <span>Cart updated</span>
+                        `;
+                        
+                        postUpdatedCart.style.opacity = 1;
+                        setTimeout(() => {
+                            postUpdatedCart.style.opacity = 0;
+                        }, 1000);
+                    }
                 }, 0);
 
                 // Recalculate the total and update the display
-                updateTotal();  // Call the updateTotal function to refresh the total
-                renderCart();  // This updates the cart quantity (in the cart icon, for example)
+                updateTotal();
+                renderCart();
             }
         }
     });
@@ -109,41 +119,27 @@ function deleteFromCart() {
         if (e.target.classList.contains('delete-cart-item')) {
             const productId = e.target.dataset.productId;
             
-            // Get the current cart from local storage
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Remove the item from the cart array
+            const cartIndex = cart.findIndex(item => item.id === productId);
             
-            // Create a new cart excluding the deleted item
-            const newCart = cart.filter((cartItem) => cartItem.id !== productId);
-            
-            // Update the local storage with the new cart
-            localStorage.setItem('cart', JSON.stringify(newCart));
+            if (cartIndex !== -1) {
+                cart.splice(cartIndex, 1);
+                
+                // Update local storage
+                localStorage.setItem('cart', JSON.stringify(cart));
 
-            // Ensure the global cart is updated
-            cart.splice(0, cart.length, ...newCart);
+                // Regenerate the cart
+                generateCart();
 
-            // Immediately remove the cart item from the DOM
-            const cartItemToRemove = e.target.closest('.cart-item');
-            if (cartItemToRemove) {
-                cartItemToRemove.remove();
-            }
+                // Update total and cart render
+                updateTotal();
+                renderCart();
 
-            // Re-render the cart and update the total after deletion
-            updateTotal();
-            renderCart();
-
-            // If cart is empty, show an empty cart message
-            if (newCart.length === 0) {
-                // Safely remove sections
-                document.querySelector('.delivery-section')?.remove();
-                document.querySelector('.payment-summary')?.remove();
-
-                const cartItemsContainer = document.querySelector('.cart-items');
-                if (cartItemsContainer) {
-                    cartItemsContainer.innerHTML = `
-                        <div class="empty-cart-message">
-                            <p>Your cart is empty</p>
-                        </div>
-                    `;
+                // Check if cart is empty
+                if (cart.length === 0) {
+                    // Remove delivery and payment sections
+                    document.querySelector('.delivery-section')?.remove();
+                    document.querySelector('.payment-summary')?.remove();
                 }
             }
         }

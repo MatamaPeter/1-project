@@ -3,9 +3,12 @@ import { formatCurrency } from "../utils/money.js";
 import { addToCart, renderCart } from "../data/cart.js";
 import { fetchFiles } from "./fetchFiles.js";
 import { groupedByCategory } from "../data/products.js";
+import { search } from "./search.js";
 
 
-fetchFiles('includes/header.html','.header-section').then(()=>{
+fetchFiles('includes/header.html', '.header-section').then(() => {
+    
+    search();
 
         
         const subMenuOpen = document.getElementById('menu-open-btn');

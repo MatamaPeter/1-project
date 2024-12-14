@@ -157,7 +157,7 @@ export function renderDeliveryOptions() {
       <label>
         <input type="radio" name="delivery-method" value="door-delivery" ${
           savedOption === "door-delivery" ? "checked" : ""
-        }> Door delivery 
+        } checked> Door delivery 
       </label>
       <label>
         <input type="radio" name="delivery-method" value="pickup-station" ${
