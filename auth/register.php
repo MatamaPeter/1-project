@@ -8,6 +8,7 @@ if (isset($_POST['register_btn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $time = date('Y-m-d H:i:s');
 
     if ($password !== $confirm_password) {
         $message = '<i class="fas fa-times-circle"></i> Passwords do not match!';
@@ -22,8 +23,8 @@ if (isset($_POST['register_btn'])) {
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $username, $email, $hashed_password);
+            $stmt = $conn->prepare("INSERT INTO users (create_time,name, email, password) VALUES (?, ?, ?,?)");
+            $stmt->bind_param("ssss", $time,$username, $email, $hashed_password);
             if ($stmt->execute()) {
                 $message = '<i class="fas fa-check-circle"></i> Registration successful!';
             } else {
@@ -83,7 +84,7 @@ if (isset($_POST['register_btn'])) {
             </div>
             <button name="register_btn">Register</button>
             <div class="forgot-password">
-                <a href="login.html">Already have an account?</a> | <a href="login.html">Login</a>
+                <a href="login.html">Already have an account?</a> | <a href="login.php">Login</a>
             </div>
         </form>
     </div>
