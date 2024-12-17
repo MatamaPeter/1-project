@@ -51,6 +51,12 @@ hr {
     width: 100%;
     border: 1px solid #ddd;
 }
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    
+}
 
 .input-container {
     position: relative;
