@@ -1,7 +1,7 @@
 <?php
 include('../includes/config.php');
 
-$message = '';  // Variable to hold error/success message
+$message = '';
 
 if (isset($_POST['register_btn'])) {
     $username = $_POST['username'];
@@ -10,7 +10,7 @@ if (isset($_POST['register_btn'])) {
     $confirm_password = $_POST['confirm_password'];
 
     if ($password !== $confirm_password) {
-        $message = "Passwords do not match!";
+        $message = '<i class="fas fa-times-circle"></i> Passwords do not match!';
     } else {
         $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
         $stmt->bind_param("s", $email);
@@ -18,16 +18,16 @@ if (isset($_POST['register_btn'])) {
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
-            $message = "Email already exists.";
+            $message = '<i class="fas fa-times-circle"></i> Email already exists.';
         } else {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $username, $email, $hashed_password);
             if ($stmt->execute()) {
-                $message = "Registration successful!";
+                $message = '<i class="fas fa-check-circle"></i> Registration successful!';
             } else {
-                $message = "Error: Could not register.";
+                $message = '<i class="fas fa-times-circle"></i> Error: Could not register.';
             }
         }
     }
@@ -42,7 +42,6 @@ if (isset($_POST['register_btn'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/register-login.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome CDN -->
-
     <title>Register - Epicks</title>
 </head>
 
