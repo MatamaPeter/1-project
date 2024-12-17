@@ -54,7 +54,7 @@
             <div class="profile">
                 <?php 
                 if (!empty($user)) { ?>
-                <a href="auth/profile.php">
+                <a href="profile.php">
                     <i class="material-icons">account_circle</i>
                     <span>
                         <?php echo htmlspecialchars($user); ?>
