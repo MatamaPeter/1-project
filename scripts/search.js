@@ -37,6 +37,7 @@ export function search() {
                     <div class="product-info">
                         <h4>${product.name}</h4>
                         <p>${product.discountPriceCents ? `$${formatCurrency(product.discountPriceCents)}` : 'Price not available'}</p>
+                        <button data-product-id="${product.id}" class="shop-button">Add to Cart</button>
                     </div>
                 `;
                 resultsDiv.appendChild(productElement);
