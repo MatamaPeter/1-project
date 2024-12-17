@@ -6,7 +6,7 @@ import { groupedByCategory } from "../data/products.js";
 import { search } from "./search.js";
 
 
-fetchFiles('includes/header.html', '.header-section').then(() => {
+fetchFiles('includes/header.php', '.header-section').then(() => {
     
     search();
 

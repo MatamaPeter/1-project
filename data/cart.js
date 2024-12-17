@@ -2,7 +2,7 @@ import { fetchFiles } from "../scripts/fetchFiles.js";
 import { products } from "./products.js";
 
 
-fetchFiles('includes/header.html', '.header-section');
+fetchFiles('includes/header.php', '.header-section');
 
 export function getCart() {
     const cartFromStorage = localStorage.getItem('cart');

@@ -22,7 +22,7 @@ if (isset($_POST['login_btn'])) {
         if (password_verify($password, $hashed_password)) {
             $selected_user = $row['name'];
             $_SESSION['user'] = $selected_user;
-            header('Location: ../index.html');
+            header('Location: ../index.php');
             exit;
         } else {
             $message = '<i class="fas fa-times-circle"></i> Invalid Credentials';
