@@ -1,19 +1,22 @@
 <?php
 include('../includes/config.php');
 
-$message = '';
+$message = ''; // Initialize message
 
 if (isset($_POST['register_btn'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    // Sanitize input
+    $username = htmlspecialchars(trim($_POST['username']));
+    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $time = date('Y-m-d H:i:s');
 
+    // Validate password match
     if ($password !== $confirm_password) {
         $message = '<i class="fas fa-times-circle"></i> Passwords do not match!';
     } else {
-        $stmt = $conn->prepare("SELECT * FROM users WHERE email=?");
+        // Check if email already exists
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $stmt->store_result();
@@ -21,19 +24,35 @@ if (isset($_POST['register_btn'])) {
         if ($stmt->num_rows > 0) {
             $message = '<i class="fas fa-times-circle"></i> Email already exists.';
         } else {
+            // Hash password and insert into database
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("INSERT INTO users (create_time,name, email, password) VALUES (?, ?, ?,?)");
-            $stmt->bind_param("ssss", $time,$username, $email, $hashed_password);
+            // Insert user
+            $stmt = $conn->prepare("INSERT INTO users (create_time, name, email, password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $time, $username, $email, $hashed_password);
+
             if ($stmt->execute()) {
-                $message = '<i class="fas fa-check-circle"></i> Registration successful!';
+                // Display success message with redirection
+                $message = '
+                    <i class="fas fa-check-circle"></i> Success! 
+                    Redirecting login<span class="dots">...</span>
+                    <script>
+                        setTimeout(function() {
+                            window.location.href = "login.php";
+                        }, 3000);
+                    </script>
+                ';
             } else {
-                $message = '<i class="fas fa-times-circle"></i> Error: Could not register.';
+                $message = '<i class="fas fa-times-circle"></i> Error: Could not register. Please try again later.';
+                error_log("Registration Error: " . $stmt->error); // Log error
             }
         }
+        $stmt->close();
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
