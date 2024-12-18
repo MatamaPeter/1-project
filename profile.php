@@ -129,6 +129,12 @@ $user = $_SESSION['user'];
 
     </html>
 
+    <!-- footer section -->
+        <div class="footer-section">
+            
+        </div>
+
+    <!-- footer section -->
 
 
     <script src="scripts/profileManagement.js" type="module"></script>

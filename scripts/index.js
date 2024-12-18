@@ -140,3 +140,5 @@ addToCart();
 renderCart();
 
 });
+
+fetchFiles('includes/footer.php', '.footer-section')
