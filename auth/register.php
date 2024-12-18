@@ -9,6 +9,7 @@ if (isset($_POST['register_btn'])) {
     // Sanitize input
     $username = htmlspecialchars(trim($_POST['username']));
     $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+    $phone = htmlspecialchars(trim($_POST['phone']));
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $time = date('Y-m-d H:i:s');
@@ -30,8 +31,8 @@ if (isset($_POST['register_btn'])) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
             // Insert user
-            $stmt = $conn->prepare("INSERT INTO users (create_time, name, email, password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $time, $username, $email, $hashed_password);
+            $stmt = $conn->prepare("INSERT INTO users (create_time, name, email, password, phone) VALUES (?, ?, ?, ?,?)");
+            $stmt->bind_param("sssss", $time, $username, $email, $hashed_password, $phone);
 
             if ($stmt->execute()) {
                 // Display success message with redirection
@@ -92,6 +93,11 @@ if (isset($_POST['register_btn'])) {
                 <input type="email" id="email" name="email" placeholder=" " required>
                 <label for="email">Email Address</label>
                 <i class="fas fa-envelope"></i>
+            </div>
+            <div class="input-container">
+                <input type="tel" id="phone" name="phone" placeholder=" " required>
+                <label for="phone">Phone</label>
+                <i class="fas fa-phone"></i>
             </div>
             <div class="input-container">
                 <input type="password" id="password" name="password" placeholder=" " required>

@@ -132,3 +132,24 @@ body {
 .submit-btn i {
     margin-right: 0.5rem;
 }
+.message_container{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.message {
+    font-size: 1rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+
+.fa-times-circle {
+    color: red
+}
+
+.fa-check-circle {
+    color: green;
+}
