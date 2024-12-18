@@ -124,22 +124,7 @@ $user = $_SESSION['user'];
             </form>
         </div>
 
-        <script>
-            document.getElementById('profileForm').addEventListener('submit', function(e) {
-                e.preventDefault();
 
-                const password = document.getElementById('password').value;
-                const confirmPassword = document.getElementById('confirm_password').value;
-
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-
-                // Here you would typically send data to server via AJAX
-                alert('Profile update submitted!');
-            });
-        </script>
     </body>
 
     </html>
